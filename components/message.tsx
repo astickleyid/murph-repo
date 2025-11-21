@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypeKatex from 'rehype-katex'
 import remarkGfm from 'remark-gfm'

@@ -5,6 +5,7 @@ import Textarea from 'react-textarea-autosize'
 import { useRouter } from 'next/navigation'
 
 import { Message } from 'ai'
+import { motion } from 'framer-motion'
 import { ArrowUp, ChevronDown, MessageCirclePlus, Square } from 'lucide-react'
 
 import { Model } from '@/lib/types/models'
