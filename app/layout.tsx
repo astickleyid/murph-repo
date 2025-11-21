@@ -26,7 +26,7 @@ const description =
   'Experience next-generation AI-powered search with beautiful generative UI. Ask anything, get intelligent answers instantly.'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://morphic.sh'),
+  metadataBase: new URL('https://nexusai.app'),
   title,
   description,
   openGraph: {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title,
     description,
     card: 'summary_large_image',
-    creator: '@miiura'
+    creator: '@nexusai'
   }
 }
 
