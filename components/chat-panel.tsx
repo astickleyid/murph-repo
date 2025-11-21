@@ -118,11 +118,19 @@ export function ChatPanel({
       )}
     >
       {messages.length === 0 && (
-        <div className="mb-10 flex flex-col items-center gap-4">
-          <IconLogo className="size-12 text-muted-foreground" />
-          <p className="text-center text-3xl font-semibold">
-            How can I help you today?
-          </p>
+        <div className="mb-10 flex flex-col items-center gap-6">
+          <div className="relative">
+            <div className="absolute inset-0 animate-glow rounded-full opacity-50"></div>
+            <IconLogo className="size-16 relative z-10" />
+          </div>
+          <div className="text-center space-y-2">
+            <p className="text-4xl font-bold gradient-text">
+              How can I help you today?
+            </p>
+            <p className="text-muted-foreground text-sm">
+              Ask me anything - I'll search the web and provide comprehensive answers
+            </p>
+          </div>
         </div>
       )}
       <form
@@ -143,7 +151,7 @@ export function ChatPanel({
           </Button>
         )}
 
-        <div className="relative flex flex-col w-full gap-2 bg-muted rounded-3xl border border-input">
+        <div className="relative flex flex-col w-full gap-2 bg-muted/50 rounded-3xl border border-input shadow-lg hover:shadow-xl transition-all-smooth">
           <Textarea
             ref={inputRef}
             name="input"

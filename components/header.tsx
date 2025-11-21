@@ -22,15 +22,17 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
   return (
     <header
       className={cn(
-        'absolute top-0 right-0 p-2 flex justify-between items-center z-10 backdrop-blur lg:backdrop-blur-none bg-background/80 lg:bg-transparent transition-[width] duration-200 ease-linear',
+        'absolute top-0 right-0 p-3 flex justify-between items-center z-10 backdrop-blur-md bg-background/70 border-b border-border/50 transition-all duration-200 ease-linear',
         open ? 'md:w-[calc(100%-var(--sidebar-width))]' : 'md:w-full',
         'w-full'
       )}
     >
-      {/* This div can be used for a logo or title on the left if needed */}
-      <div></div>
+      {/* Logo or title on the left for mobile when sidebar is closed */}
+      <div className="flex items-center">
+        {/* You can add a tagline or status indicator here */}
+      </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         {user ? <UserMenu user={user} /> : <GuestMenu />}
       </div>
     </header>

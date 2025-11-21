@@ -1,6 +1,6 @@
-# Morphic
+# NexusAI - Intelligent Search Reimagined
 
-An AI-powered search engine with a generative UI.
+Experience next-generation AI-powered search with beautiful generative UI. An enhanced, rebranded version with modern design and improved user experience.
 
 ![capture](/public/screenshot-2025-05-04.png)
 
