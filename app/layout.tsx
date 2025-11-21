@@ -21,12 +21,12 @@ const fontSans = FontSans({
   variable: '--font-sans'
 })
 
-const title = 'Morphic'
+const title = 'StickGPT'
 const description =
-  'A fully open-source AI-powered answer engine with a generative UI.'
+  'A powerful AI-powered search engine with superior functionality and refined design.'
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://morphic.sh'),
+  metadataBase: new URL('https://stickgpt.sh'),
   title,
   description,
   openGraph: {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     title,
     description,
     card: 'summary_large_image',
-    creator: '@miiura'
+    creator: '@astickleyid'
   }
 }
 

@@ -1,5 +1,5 @@
 {
-  "name": "morphic",
+  "name": "stickgpt",
   "version": "0.1.0",
   "private": true,
   "license": "Apache-2.0",
@@ -50,6 +50,7 @@
     "cmdk": "1.0.0",
     "embla-carousel-react": "^8.0.0",
     "exa-js": "^1.0.12",
+    "framer-motion": "^12.23.24",
     "jsdom": "^22.1.0",
     "katex": "^0.16.10",
     "lucide-react": "^0.507.0",
