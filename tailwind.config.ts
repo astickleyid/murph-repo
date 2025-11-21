@@ -137,6 +137,42 @@ const config = {
             transform: 'translateX(100%)',
             opacity: '0'
           }
+        },
+        'fade-in': {
+          from: {
+            opacity: '0'
+          },
+          to: {
+            opacity: '1'
+          }
+        },
+        'fade-out': {
+          from: {
+            opacity: '1'
+          },
+          to: {
+            opacity: '0'
+          }
+        },
+        'slide-up': {
+          from: {
+            transform: 'translateY(10px)',
+            opacity: '0'
+          },
+          to: {
+            transform: 'translateY(0)',
+            opacity: '1'
+          }
+        },
+        'slide-down': {
+          from: {
+            transform: 'translateY(-10px)',
+            opacity: '0'
+          },
+          to: {
+            transform: 'translateY(0)',
+            opacity: '1'
+          }
         }
       },
       animation: {
@@ -145,7 +181,11 @@ const config = {
         'collapse-down': 'collapse-down 0.1s ease-in-out',
         'collapse-up': 'collapse-up 0.1s ease-in-out',
         'slide-in-right': 'slide-in-right 0.2s ease-out',
-        'slide-out-right': 'slide-out-right 0.2s ease-out'
+        'slide-out-right': 'slide-out-right 0.2s ease-out',
+        'fade-in': 'fade-in 0.3s ease-out',
+        'fade-out': 'fade-out 0.2s ease-out',
+        'slide-up': 'slide-up 0.3s ease-out',
+        'slide-down': 'slide-down 0.3s ease-out'
       },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans]
