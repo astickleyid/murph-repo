@@ -44,7 +44,15 @@ export function FloatingActions({
     {
       icon: HelpCircle,
       label: 'Help',
-      onClick: () => window.open('/docs', '_blank'),
+      onClick: () => {
+        // Open keyboard shortcuts as help
+        const event = new KeyboardEvent('keydown', {
+          key: '/',
+          ctrlKey: true,
+          bubbles: true
+        })
+        document.dispatchEvent(event)
+      },
       gradient: 'from-green-500 to-emerald-500'
     }
   ]

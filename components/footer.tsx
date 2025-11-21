@@ -20,7 +20,7 @@ export function Footer() {
           {/* Links */}
           <div className="flex items-center gap-4">
             <Link
-              href="https://github.com/miurla/morphic"
+              href="https://github.com/astickleyid/murph-repo"
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors"
