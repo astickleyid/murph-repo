@@ -1,6 +1,5 @@
 'use client'
 
-// import Link from 'next/link' // No longer needed directly here for Sign In button
 import React from 'react'
 
 import { User } from '@supabase/supabase-js'
@@ -9,8 +8,9 @@ import { cn } from '@/lib/utils'
 
 import { useSidebar } from '@/components/ui/sidebar'
 
-// import { Button } from './ui/button' // No longer needed directly here for Sign In button
-import GuestMenu from './guest-menu' // Import the new GuestMenu component
+import GuestMenu from './guest-menu'
+import { KeyboardShortcuts } from './keyboard-shortcuts'
+import { ThemeToggle } from './theme-toggle'
 import UserMenu from './user-menu'
 
 interface HeaderProps {
@@ -32,7 +32,9 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         {/* You can add a tagline or status indicator here */}
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <KeyboardShortcuts />
         {user ? <UserMenu user={user} /> : <GuestMenu />}
       </div>
     </header>

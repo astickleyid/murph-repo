@@ -128,7 +128,7 @@ export function ChatPanel({
               How can I help you today?
             </p>
             <p className="text-muted-foreground text-sm">
-              Ask me anything - I'll search the web and provide comprehensive answers
+              Ask me anything - I&apos;ll search the web and provide comprehensive answers
             </p>
           </div>
         </div>

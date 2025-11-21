@@ -84,7 +84,7 @@ export function ModelSelector({ models }: ModelSelectorProps) {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="text-sm rounded-full shadow-none focus:ring-0"
+          className="text-sm rounded-full shadow-none focus:ring-0 hover:shadow-sm transition-all-smooth"
         >
           {selectedModel ? (
             <div className="flex items-center space-x-1">
