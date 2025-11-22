@@ -196,10 +196,7 @@ const config = {
           'Roboto',
           'Helvetica Neue',
           'Arial',
-          'sans-serif',
-          'Apple Color Emoji',
-          'Segoe UI Emoji',
-          'Segoe UI Symbol'
+          ...fontFamily.sans
         ]
       }
     }

@@ -144,7 +144,7 @@ git branch -v
 ```
 
 ### On GitHub
-Navigate to: `https://github.com/astickleyid/murph-repo/branches`
+Navigate to your repository's branches page in the GitHub UI
 
 ## Troubleshooting
 

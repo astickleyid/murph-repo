@@ -37,7 +37,7 @@ ERESOLVE could not resolve
 peer react@"^18.0.0" from cmdk@1.0.0
 ```
 
-**Cause:** The project uses React 19, but some dependencies (like `cmdk@1.0.0`) specify React 18 as a peer dependency.
+**Cause:** The project uses React 19, but some dependencies (like `cmdk@1.0.0`) specify React 18 as a peer dependency. Note that React 19 is relatively new, and not all packages in the ecosystem have been updated to officially support it yet.
 
 **Solution (Already Documented):**
 Use the `--legacy-peer-deps` flag when installing:
