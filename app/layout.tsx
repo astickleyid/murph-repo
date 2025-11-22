@@ -10,7 +10,9 @@ import { Toaster } from '@/components/ui/sonner'
 
 import AppSidebar from '@/components/app-sidebar'
 import ArtifactRoot from '@/components/artifact/artifact-root'
+import { CommandPaletteProvider } from '@/components/command-palette-provider'
 import Header from '@/components/header'
+import { KeyboardHint } from '@/components/keyboard-hint'
 import { ThemeProvider } from '@/components/theme-provider'
 
 import './globals.css'
@@ -79,6 +81,8 @@ export default async function RootLayout({
               </main>
             </div>
           </SidebarProvider>
+          <CommandPaletteProvider />
+          <KeyboardHint />
           <Toaster />
           <Analytics />
         </ThemeProvider>

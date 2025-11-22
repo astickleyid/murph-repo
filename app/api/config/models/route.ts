@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server'
 
 import { getModels } from '@/lib/config/models'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   try {
     const models = await getModels()
