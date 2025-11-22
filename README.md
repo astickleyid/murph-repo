@@ -119,6 +119,8 @@ git clone git@github.com:[YOUR_GITHUB_ACCOUNT]/stickgpt.git
 
 ### 2. Install dependencies
 
+> **Note:** We recommend using **npm** as the package manager for this project. The `--legacy-peer-deps` flag is required due to known peer dependency issues with some packages.  
+> If you see a reference to `bun` in `package.json`, you can ignore it unless you specifically want to use Bun. Official support and testing is with npm.
 ```bash
 cd stickgpt
 npm install --legacy-peer-deps

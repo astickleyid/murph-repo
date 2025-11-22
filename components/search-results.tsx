@@ -42,12 +42,12 @@ export function SearchResults({
       <div className="flex flex-col gap-2">
         {results.map((result, index) => (
           <motion.div
-            key={index}
+            key={result.url}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{
               duration: 0.3,
-              delay: index * 0.05,
+              delay: Math.min(index * 0.05, 1),
               ease: [0.25, 0.1, 0.25, 1]
             }}
           >
@@ -94,7 +94,7 @@ export function SearchResults({
       {displayedGridResults.map((result, index) => (
         <motion.div
           className="w-1/2 md:w-1/4 p-1"
-          key={index}
+          key={result.url}
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
@@ -104,7 +104,7 @@ export function SearchResults({
           }}
         >
           <Link href={result.url} passHref target="_blank">
-            <Card className="flex-1 h-full hover:bg-muted/50 transition-all duration-200 hover:shadow-sm hover:scale-105">
+            <Card className="flex-1 h-full hover:bg-muted/50 transition-all duration-200 hover:shadow-sm">
               <CardContent className="p-2 flex flex-col justify-between h-full">
                 <p className="text-xs line-clamp-2 min-h-[2rem]">
                   {result.title || result.content}
