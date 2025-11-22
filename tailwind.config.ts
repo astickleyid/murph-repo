@@ -188,7 +188,16 @@ const config = {
         'slide-down': 'slide-down 0.3s ease-out'
       },
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans]
+        sans: [
+          'Inter',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'Roboto',
+          'Helvetica Neue',
+          'Arial',
+          ...fontFamily.sans
+        ]
       }
     }
   },
