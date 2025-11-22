@@ -4,10 +4,11 @@ import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
-import { MoreHorizontal, Trash2 } from 'lucide-react'
+import { Check,MoreHorizontal, Pin, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 import { Chat } from '@/lib/types'
+import { cn } from '@/lib/utils'
 
 import {
   AlertDialog,
@@ -36,6 +37,11 @@ import { Spinner } from '../ui/spinner'
 
 interface ChatMenuItemProps {
   chat: Chat
+  isPinned?: boolean
+  isSelected?: boolean
+  onPin?: (chatId: string) => void
+  onSelect?: (chatId: string, selected: boolean) => void
+  selectionMode?: boolean
 }
 
 const formatDateWithTime = (date: Date | string) => {

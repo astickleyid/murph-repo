@@ -19,35 +19,44 @@ import {
   SidebarTrigger
 } from '@/components/ui/sidebar'
 
+import { ChatFolders } from './sidebar/chat-folders'
 import { ChatHistorySection } from './sidebar/chat-history-section'
 import { ChatHistorySkeleton } from './sidebar/chat-history-skeleton'
+import { SidebarSearch } from './sidebar/sidebar-search'
 import { IconLogo } from './ui/icons'
 
 export default function AppSidebar() {
   return (
     <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
-      <SidebarHeader className="flex flex-row justify-between items-center">
+      <SidebarHeader className="flex flex-col gap-2 pb-2">
+        <div className="flex flex-row justify-between items-center px-2">
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+          >
+            <Link href="/" className="flex items-center gap-2">
+              <IconLogo className={cn('size-6')} />
+            </Link>
+          </motion.div>
+          <SidebarTrigger />
+        </div>
         <motion.div
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
+          className="px-2"
         >
-          <Link href="/" className="flex items-center gap-2 px-2 py-3">
-            <IconLogo className={cn('size-5')} />
-            <span className="font-semibold text-sm tracking-tight">
-              StickGPT
-            </span>
-          </Link>
+          <SidebarSearch onSearch={(query) => console.log('Search:', query)} />
         </motion.div>
-        <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent className="flex flex-col px-2 py-4 h-full">
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton asChild className="mb-2">
               <Link href="/" className="flex items-center gap-2">
                 <Plus className="size-4" />
-                <span>New</span>
+                <span>New Chat</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
