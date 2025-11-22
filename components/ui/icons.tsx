@@ -31,14 +31,15 @@ function IconLogo({ className, ...props }: React.ComponentProps<'div'>) {
   }
   
   return (
-    <div className={cn('relative', sizeMap[logoSettings.size], className)} {...props}>
+    <div className={cn('relative rounded-lg overflow-hidden', sizeMap[logoSettings.size], className)} {...props}>
       <Image
-        src="/stick-logo.jpg"
+        src="/logo.png"
         alt="StickGPT Logo"
         fill
         className={cn(
           'object-contain',
-          logoSettings.invertInDarkMode && resolvedTheme === 'dark' ? 'brightness-0 invert' : ''
+          resolvedTheme === 'dark' && 'mix-blend-screen',
+          logoSettings.invertInDarkMode && resolvedTheme === 'dark' && 'brightness-0 invert'
         )}
         priority
       />
