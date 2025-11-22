@@ -93,7 +93,7 @@ All AI provider SDKs have major version updates available (v1.x → v2.x):
 
 ## 3. Security Assessment
 
-### Vulnerability Analysis (5 Total: 2 Moderate, 3 High)
+### Vulnerability Analysis (4 Total: 3 Moderate, 1 High)
 
 #### 1. AI SDK - File Upload Whitelist Bypass (GHSA-rwvc-j5jr-mgvh)
 - **Severity**: Moderate (CVSS 3.7)
