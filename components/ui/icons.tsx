@@ -25,19 +25,20 @@ function IconLogo({ className, ...props }: React.ComponentProps<'div'>) {
   }, [])
 
   const sizeMap = {
-    small: 'h-6 w-6',
-    medium: 'h-10 w-10',
-    large: 'h-16 w-16'
+    small: 'h-12',
+    medium: 'h-20',
+    large: 'h-32'
   }
   
   return (
-    <div className={cn('relative rounded-lg overflow-hidden', sizeMap[logoSettings.size], className)} {...props}>
+    <div className={cn('relative rounded-lg overflow-hidden', sizeMap[logoSettings.size], className)} style={{ width: 'auto', aspectRatio: '1024/1024' }} {...props}>
       <Image
         src="/logo.png"
         alt="StickGPT Logo"
-        fill
+        width={1024}
+        height={1024}
         className={cn(
-          'object-contain',
+          'object-contain w-full h-full',
           resolvedTheme === 'dark' && 'mix-blend-screen',
           logoSettings.invertInDarkMode && resolvedTheme === 'dark' && 'brightness-0 invert'
         )}
