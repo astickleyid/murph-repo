@@ -73,7 +73,7 @@ This document provides a complete analysis of the StickGPT repository, covering 
 | typescript | 5.x | 5.x | ✅ Latest | Stable |
 
 ### Recently Updated (This Session)
-- ✅ **react-syntax-highlighter**: 15.6.6 → 16.1.0 (security fix)
+- ✅ **react-syntax-highlighter**: ^15.5.0 → 16.1.0 (security fix)
 - ✅ **Removed deprecated packages**:
   - `@supabase/auth-helpers-nextjs` (unused)
   - `@supabase/auth-ui-react` (unused)
