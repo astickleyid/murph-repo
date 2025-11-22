@@ -1,6 +1,9 @@
+'use client'
+
 import { Suspense } from 'react'
 import Link from 'next/link'
 
+import { motion } from 'framer-motion'
 import { Plus } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
@@ -24,10 +27,18 @@ export default function AppSidebar() {
   return (
     <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
       <SidebarHeader className="flex flex-row justify-between items-center">
-        <Link href="/" className="flex items-center gap-2 px-2 py-3">
-          <IconLogo className={cn('size-5')} />
-          <span className="font-semibold text-sm">Morphic</span>
-        </Link>
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
+        >
+          <Link href="/" className="flex items-center gap-2 px-2 py-3">
+            <IconLogo className={cn('size-5')} />
+            <span className="font-semibold text-sm tracking-tight">
+              StickGPT
+            </span>
+          </Link>
+        </motion.div>
         <SidebarTrigger />
       </SidebarHeader>
       <SidebarContent className="flex flex-col px-2 py-4 h-full">

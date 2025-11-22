@@ -1,3 +1,6 @@
+'use client'
+
+import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -28,25 +31,42 @@ export function EmptyScreen({
   className?: string
 }) {
   return (
-    <div className={`mx-auto w-full transition-all ${className}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: 'easeOut' }}
+      className={`mx-auto w-full transition-all ${className}`}
+    >
       <div className="bg-background p-2">
         <div className="mt-2 flex flex-col items-start space-y-2 mb-4">
           {exampleMessages.map((message, index) => (
-            <Button
+            <motion.div
               key={index}
-              variant="link"
-              className="h-auto p-0 text-base"
-              name={message.message}
-              onClick={async () => {
-                submitMessage(message.message)
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{
+                duration: 0.3,
+                delay: index * 0.1,
+                ease: [0.25, 0.1, 0.25, 1]
               }}
+              whileHover={{ x: 4, transition: { duration: 0.2 } }}
+              className="w-full"
             >
-              <ArrowRight size={16} className="mr-2 text-muted-foreground" />
-              {message.heading}
-            </Button>
+              <Button
+                variant="link"
+                className="h-auto p-0 text-base"
+                name={message.message}
+                onClick={async () => {
+                  submitMessage(message.message)
+                }}
+              >
+                <ArrowRight size={16} className="mr-2 text-muted-foreground" />
+                {message.heading}
+              </Button>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
