@@ -24,22 +24,33 @@ function IconLogo({ className, ...props }: React.ComponentProps<'div'>) {
     }
   }, [])
 
+  // Choose logo variant
+  const logoSrc = logoSettings.variant === 'text' ? '/logo-with-text.jpg' : '/logo-icon-only.png'
+  const logoWidth = logoSettings.variant === 'text' ? 2320 : 1024
+  const logoHeight = logoSettings.variant === 'text' ? 2486 : 1024
+  
   const sizeMap = {
-    small: 'h-12',
-    medium: 'h-20',
-    large: 'h-32'
+    small: 'h-20',
+    medium: 'h-32',
+    large: 'h-48'
   }
   
   return (
-    <div className={cn('relative rounded-lg overflow-hidden', sizeMap[logoSettings.size], className)} style={{ width: 'auto', aspectRatio: '1024/1024' }} {...props}>
+    <div 
+      className={cn('relative', sizeMap[logoSettings.size], className)} 
+      style={{ 
+        width: 'auto',
+        aspectRatio: `${logoWidth}/${logoHeight}`
+      }} 
+      {...props}
+    >
       <Image
-        src="/logo.png"
+        src={logoSrc}
         alt="StickGPT Logo"
-        width={1024}
-        height={1024}
+        width={logoWidth}
+        height={logoHeight}
         className={cn(
           'object-contain w-full h-full',
-          resolvedTheme === 'dark' && 'mix-blend-screen',
           logoSettings.invertInDarkMode && resolvedTheme === 'dark' && 'brightness-0 invert'
         )}
         priority

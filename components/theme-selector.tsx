@@ -113,6 +113,26 @@ export function ThemeSelector() {
             </h3>
             <div className="space-y-4">
               <div>
+                <Label className="font-medium mb-2 block">Logo Variant</Label>
+                <div className="flex gap-2 mb-4">
+                  {(['icon', 'text'] as const).map((variant) => (
+                    <button
+                      key={variant}
+                      onClick={() => updateLogoSettings({ variant })}
+                      className={cn(
+                        'px-4 py-2 rounded-lg border-2 transition-all capitalize flex-1',
+                        logoSettings.variant === variant
+                          ? 'border-primary bg-primary/10'
+                          : 'border-border hover:border-primary/50'
+                      )}
+                    >
+                      {variant === 'icon' ? 'Icon Only' : 'With Text'}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
                 <Label className="font-medium mb-2 block">Logo Size</Label>
                 <div className="flex gap-2">
                   {(['small', 'medium', 'large'] as const).map((size) => (

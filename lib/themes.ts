@@ -189,10 +189,12 @@ export interface LogoSettings {
   size: 'small' | 'medium' | 'large'
   showInHeader: boolean
   invertInDarkMode: boolean
+  variant: 'icon' | 'text'
 }
 
 export const defaultLogoSettings: LogoSettings = {
   size: 'medium',
   showInHeader: true,
-  invertInDarkMode: false
+  invertInDarkMode: false,
+  variant: 'text'
 }
