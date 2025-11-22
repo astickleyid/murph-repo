@@ -11,6 +11,7 @@ A powerful AI-powered search engine with superior functionality and refined desi
 - 🚀 [Quickstart](#-quickstart)
 - 🌐 [Deploy](#-deploy)
 - 🔎 [Search Engine](#-search-engine)
+- 📚 [Documentation](#-documentation)
 - 💙 [Sponsors](#-sponsors)
 - 👥 [Contributing](#-contributing)
 - 📄 [License](#-license)
@@ -194,6 +195,14 @@ If you want to use StickGPT as a search engine in your browser, follow these ste
 7. Find "StickGPT" in the list of site search, click on the three dots next to it, and select "Make default".
 
 This will allow you to use StickGPT as your default search engine in the browser.
+
+## 📚 Documentation
+
+Additional documentation is available in the `docs/` directory:
+
+- **[Configuration Guide](docs/CONFIGURATION.md)** - Detailed setup for all features
+- **[Build Troubleshooting](docs/BUILD_TROUBLESHOOTING.md)** - Common build issues and solutions
+- **[Branch Management](docs/BRANCH_MANAGEMENT.md)** - Git workflow and branch strategy
 
 ## 👥 Contributing
 
