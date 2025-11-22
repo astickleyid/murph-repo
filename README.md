@@ -200,9 +200,15 @@ This will allow you to use StickGPT as your default search engine in the browser
 
 Additional documentation is available in the `docs/` directory:
 
+### Getting Started
+- **[Quick Reference](docs/QUICK_REFERENCE.md)** - Fast answers to common questions
 - **[Configuration Guide](docs/CONFIGURATION.md)** - Detailed setup for all features
+
+### Development
+- **[Comprehensive Analysis](docs/COMPREHENSIVE_ANALYSIS.md)** - Complete system overview and architecture
 - **[Build Troubleshooting](docs/BUILD_TROUBLESHOOTING.md)** - Common build issues and solutions
 - **[Branch Management](docs/BRANCH_MANAGEMENT.md)** - Git workflow and branch strategy
+- **[Investigation Summary](docs/INVESTIGATION_SUMMARY.md)** - Build fix documentation
 
 ## 👥 Contributing
 
