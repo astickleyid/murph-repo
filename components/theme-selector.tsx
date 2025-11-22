@@ -28,7 +28,7 @@ import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 
 export function ThemeSelector() {
-  const { currentTheme, setThemeConfig, themes, accessibility, updateAccessibility } = useThemeConfig()
+  const { currentTheme, setThemeConfig, themes, accessibility, updateAccessibility, logoSettings, updateLogoSettings } = useThemeConfig()
 
   return (
     <Dialog>
@@ -100,6 +100,55 @@ export function ThemeSelector() {
                   </div>
                 </motion.button>
               ))}
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* Logo Customization */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <Palette className="size-4" />
+              Logo Settings
+            </h3>
+            <div className="space-y-4">
+              <div>
+                <Label className="font-medium mb-2 block">Logo Size</Label>
+                <div className="flex gap-2">
+                  {(['small', 'medium', 'large'] as const).map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => updateLogoSettings({ size })}
+                      className={cn(
+                        'px-4 py-2 rounded-lg border-2 transition-all capitalize',
+                        logoSettings.size === size
+                          ? 'border-primary bg-primary/10'
+                          : 'border-border hover:border-primary/50'
+                      )}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div>
+                  <Label htmlFor="invert-logo" className="font-medium">
+                    Invert in Dark Mode
+                  </Label>
+                  <p className="text-xs text-muted-foreground">
+                    Automatically invert logo colors for dark themes
+                  </p>
+                </div>
+                <Switch
+                  id="invert-logo"
+                  checked={logoSettings.invertInDarkMode}
+                  onCheckedChange={(checked) =>
+                    updateLogoSettings({ invertInDarkMode: checked })
+                  }
+                />
+              </div>
             </div>
           </div>
 

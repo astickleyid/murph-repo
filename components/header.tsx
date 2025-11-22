@@ -33,13 +33,13 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
     >
       {/* Logo and brand */}
       <motion.div
-        className="flex items-center gap-2"
+        className="flex items-center gap-3"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
       >
-        <IconLogo className="size-8 text-primary" />
-        <span className="text-lg font-bold hidden sm:inline-block bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+        <IconLogo />
+        <span className="text-xl font-bold hidden sm:inline-block bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
           StickGPT
         </span>
       </motion.div>

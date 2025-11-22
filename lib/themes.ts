@@ -184,3 +184,15 @@ export const accessibilityOptions = {
   dyslexiaFont: false,
   largerText: false
 }
+
+export interface LogoSettings {
+  size: 'small' | 'medium' | 'large'
+  showInHeader: boolean
+  invertInDarkMode: boolean
+}
+
+export const defaultLogoSettings: LogoSettings = {
+  size: 'medium',
+  showInHeader: true,
+  invertInDarkMode: true
+}

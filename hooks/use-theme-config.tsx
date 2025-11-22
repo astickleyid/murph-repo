@@ -3,10 +3,17 @@
 import { useEffect, useState } from 'react'
 import { useTheme } from 'next-themes'
 
-import { accessibilityOptions,ThemeConfig, themes } from '@/lib/themes'
+import {
+  accessibilityOptions,
+  defaultLogoSettings,
+  LogoSettings,
+  themes,
+  ThemeConfig
+} from '@/lib/themes'
 
 const THEME_CONFIG_KEY = 'stickgpt-theme-config'
 const ACCESSIBILITY_KEY = 'stickgpt-accessibility'
+const LOGO_SETTINGS_KEY = 'stickgpt-logo-settings'
 
 export interface AccessibilitySettings {
   highContrast: boolean
@@ -19,6 +26,7 @@ export function useThemeConfig() {
   const { theme: currentMode, setTheme: setMode } = useTheme()
   const [currentTheme, setCurrentTheme] = useState<string>('light')
   const [accessibility, setAccessibility] = useState<AccessibilitySettings>(accessibilityOptions)
+  const [logoSettings, setLogoSettings] = useState<LogoSettings>(defaultLogoSettings)
 
   // Load theme config
   useEffect(() => {
@@ -41,6 +49,18 @@ export function useThemeConfig() {
       }
     } catch (error) {
       console.error('Failed to load accessibility settings:', error)
+    }
+  }, [])
+
+  // Load logo settings
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(LOGO_SETTINGS_KEY)
+      if (stored) {
+        setLogoSettings(JSON.parse(stored))
+      }
+    } catch (error) {
+      console.error('Failed to load logo settings:', error)
     }
   }, [])
 
@@ -111,11 +131,23 @@ export function useThemeConfig() {
     }
   }
 
+  const updateLogoSettings = (settings: Partial<LogoSettings>) => {
+    const updated = { ...logoSettings, ...settings }
+    setLogoSettings(updated)
+    try {
+      localStorage.setItem(LOGO_SETTINGS_KEY, JSON.stringify(updated))
+    } catch (error) {
+      console.error('Failed to save logo settings:', error)
+    }
+  }
+
   return {
     currentTheme,
     setThemeConfig,
     themes: Object.values(themes),
     accessibility,
-    updateAccessibility
+    updateAccessibility,
+    logoSettings,
+    updateLogoSettings
   }
 }
