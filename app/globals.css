@@ -134,3 +134,41 @@
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 }
+
+/* Accessibility Classes */
+.high-contrast {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --primary: 0 0% 0%;
+  --border: 0 0% 0%;
+}
+
+.dark.high-contrast {
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --primary: 0 0% 100%;
+  --border: 0 0% 100%;
+}
+
+.reduce-motion * {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=OpenDyslexic&display=swap');
+
+.dyslexia-font,
+.dyslexia-font * {
+  font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+.larger-text {
+  font-size: 110%;
+}
+
+.larger-text h1 { font-size: 2.8rem; }
+.larger-text h2 { font-size: 2.4rem; }
+.larger-text h3 { font-size: 2rem; }
+.larger-text p { font-size: 1.1rem; }
+.larger-text button { font-size: 1.05rem; }

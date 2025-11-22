@@ -7,9 +7,11 @@ import { motion } from 'framer-motion'
 
 import { cn } from '@/lib/utils'
 
+import { IconLogo } from '@/components/ui/icons'
 import { useSidebar } from '@/components/ui/sidebar'
 
 import GuestMenu from './guest-menu'
+import { ThemeSelector } from './theme-selector'
 import UserMenu from './user-menu'
 
 interface HeaderProps {
@@ -29,8 +31,18 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         'w-full'
       )}
     >
-      {/* This div can be used for a logo or title on the left if needed */}
-      <div></div>
+      {/* Logo and brand */}
+      <motion.div
+        className="flex items-center gap-2"
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
+      >
+        <IconLogo className="size-8 text-primary" />
+        <span className="text-lg font-bold hidden sm:inline-block bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent">
+          StickGPT
+        </span>
+      </motion.div>
 
       <motion.div
         className="flex items-center gap-2"
@@ -38,6 +50,7 @@ export const Header: React.FC<HeaderProps> = ({ user }) => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
       >
+        <ThemeSelector />
         {user ? <UserMenu user={user} /> : <GuestMenu />}
       </motion.div>
     </motion.header>

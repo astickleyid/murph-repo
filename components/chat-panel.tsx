@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import Textarea from 'react-textarea-autosize'
 import { useRouter } from 'next/navigation'
 
 import { Message } from 'ai'
@@ -11,12 +10,15 @@ import { ArrowUp, ChevronDown, MessageCirclePlus, Square } from 'lucide-react'
 import { Model } from '@/lib/types/models'
 import { cn } from '@/lib/utils'
 
+import { useSmartInput } from '@/hooks/use-smart-input'
+
 import { useArtifact } from './artifact/artifact-context'
 import { Button } from './ui/button'
 import { IconLogo } from './ui/icons'
 import { EmptyScreen } from './empty-screen'
 import { ModelSelector } from './model-selector'
 import { SearchModeToggle } from './search-mode-toggle'
+import { SmartInput } from './smart-input'
 
 interface ChatPanelProps {
   input: string
@@ -56,6 +58,7 @@ export function ChatPanel({
   const [isComposing, setIsComposing] = useState(false) // Composition state
   const [enterDisabled, setEnterDisabled] = useState(false) // Disable Enter after composition ends
   const { close: closeArtifact } = useArtifact()
+  const { recentQueries, addQuery, suggestions } = useSmartInput()
 
   const handleCompositionStart = () => setIsComposing(true)
 
@@ -144,20 +147,20 @@ export function ChatPanel({
           </Button>
         )}
 
-        <div className="relative flex flex-col w-full gap-2 bg-muted rounded-3xl border border-input">
-          <Textarea
-            ref={inputRef}
-            name="input"
-            rows={2}
-            maxRows={5}
-            tabIndex={0}
-            onCompositionStart={handleCompositionStart}
-            onCompositionEnd={handleCompositionEnd}
-            placeholder="Ask a question..."
-            spellCheck={false}
+        <div className="relative flex flex-col w-full gap-2 glass-strong rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300">
+          <SmartInput
+            inputRef={inputRef}
             value={input}
             disabled={isLoading || isToolInvocationInProgress()}
-            className="resize-none w-full min-h-12 bg-transparent border-0 p-4 text-sm placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            placeholder="Ask a question..."
+            recentQueries={recentQueries}
+            suggestions={suggestions}
+            onSelectSuggestion={(suggestion) => {
+              handleInputChange({
+                target: { value: suggestion }
+              } as React.ChangeEvent<HTMLTextAreaElement>)
+              inputRef.current?.focus()
+            }}
             onChange={e => {
               handleInputChange(e)
               setShowEmptyScreen(e.target.value.length === 0)
@@ -174,46 +177,62 @@ export function ChatPanel({
                   return
                 }
                 e.preventDefault()
+                addQuery(input.trim())
                 const textarea = e.target as HTMLTextAreaElement
                 textarea.form?.requestSubmit()
               }
             }}
             onFocus={() => setShowEmptyScreen(true)}
             onBlur={() => setShowEmptyScreen(false)}
+            onCompositionStart={handleCompositionStart}
+            onCompositionEnd={handleCompositionEnd}
           />
 
           {/* Bottom menu area */}
-          <div className="flex items-center justify-between p-3">
+          <div className="flex items-center justify-between p-3 border-t border-border/50">
             <div className="flex items-center gap-2">
               <ModelSelector models={models || []} />
               <SearchModeToggle />
             </div>
             <div className="flex items-center gap-2">
               {messages.length > 0 && (
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleNewChat}
-                  className="shrink-0 rounded-full group"
-                  type="button"
-                  disabled={isLoading || isToolInvocationInProgress()}
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
                 >
-                  <MessageCirclePlus className="size-4 group-hover:rotate-12 transition-all" />
-                </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={handleNewChat}
+                    className="shrink-0 rounded-full group hover:bg-accent/50 transition-all"
+                    type="button"
+                    disabled={isLoading || isToolInvocationInProgress()}
+                  >
+                    <MessageCirclePlus className="size-4 group-hover:rotate-12 transition-all duration-300" />
+                  </Button>
+                </motion.div>
               )}
-              <Button
-                type={isLoading ? 'button' : 'submit'}
-                size={'icon'}
-                variant={'outline'}
-                className={cn(isLoading && 'animate-pulse', 'rounded-full')}
-                disabled={
-                  (input.length === 0 && !isLoading) ||
-                  isToolInvocationInProgress()
-                }
-                onClick={isLoading ? stop : undefined}
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {isLoading ? <Square size={20} /> : <ArrowUp size={20} />}
-              </Button>
+                <Button
+                  type={isLoading ? 'button' : 'submit'}
+                  size={'icon'}
+                  className={cn(
+                    isLoading && 'animate-pulse',
+                    'rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300'
+                  )}
+                  disabled={
+                    (input.length === 0 && !isLoading) ||
+                    isToolInvocationInProgress()
+                  }
+                  onClick={isLoading ? stop : undefined}
+                >
+                  {isLoading ? <Square size={20} /> : <ArrowUp size={20} />}
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>
