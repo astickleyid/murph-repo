@@ -24,8 +24,8 @@ function IconLogo({ className, ...props }: React.ComponentProps<'div'>) {
     }
   }, [])
 
-  // Choose logo variant
-  const logoSrc = logoSettings.variant === 'text' ? '/logo-with-text.jpg' : '/logo-icon-only.png'
+  // Choose logo variant - both are now transparent PNGs
+  const logoSrc = logoSettings.variant === 'text' ? '/logo-with-text.png' : '/logo-icon-only.png'
   const logoWidth = logoSettings.variant === 'text' ? 2320 : 1024
   const logoHeight = logoSettings.variant === 'text' ? 2486 : 1024
   
@@ -49,6 +49,9 @@ function IconLogo({ className, ...props }: React.ComponentProps<'div'>) {
         alt="StickGPT Logo"
         width={logoWidth}
         height={logoHeight}
+        style={{
+          mixBlendMode: resolvedTheme === 'dark' ? 'screen' : 'normal'
+        }}
         className={cn(
           'object-contain w-full h-full',
           logoSettings.invertInDarkMode && resolvedTheme === 'dark' && 'brightness-0 invert'
