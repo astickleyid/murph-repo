@@ -185,10 +185,47 @@ export function ThemeBuilder() {
             </div>
           </div>
 
+          {/* Live Preview */}
+          <div className="space-y-3">
+            <Label className="text-lg font-semibold">Live Preview</Label>
+            <div 
+              className="p-6 rounded-lg border-2 space-y-3"
+              style={{
+                backgroundColor: theme.backgroundColor,
+                borderColor: theme.accentColor,
+                borderWidth: `${theme.borderWidth}px`,
+                borderRadius: `${theme.borderRadius}px`,
+                color: theme.textColor
+              }}
+            >
+              <div 
+                className="p-3 rounded"
+                style={{ 
+                  backgroundColor: theme.primaryColor,
+                  borderRadius: `${theme.borderRadius}px`,
+                  color: theme.textColor
+                }}
+              >
+                <p className="font-semibold">Primary Element</p>
+              </div>
+              <div 
+                className="p-3 rounded"
+                style={{ 
+                  backgroundColor: theme.accentColor,
+                  borderRadius: `${theme.borderRadius}px`,
+                  color: '#ffffff'
+                }}
+              >
+                <p className="font-semibold">Accent Element</p>
+              </div>
+              <p>Sample text in your theme</p>
+            </div>
+          </div>
+
           {/* Actions */}
           <div className="flex gap-3 pt-4 border-t">
             <Button onClick={() => applyTheme()} variant="outline" className="flex-1">
-              👁️ Preview
+              👁️ Apply to Page
             </Button>
             <Button onClick={saveTheme} className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500">
               💾 Save Theme
