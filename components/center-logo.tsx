@@ -21,26 +21,24 @@ export function CenterLogo({ hasMessages }: CenterLogoProps) {
 
   return (
     <AnimatePresence mode="wait">
-      {isVisible ? (
-        // Center position when no messages - back to original center
+      {!hasMessages ? (
+        // Above "How can I help" text when no messages
         <motion.div
           key="center"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.8, x: -300, y: -300 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none"
+          exit={{ opacity: 0, scale: 0.5, x: -200, y: -100 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
         >
-          <IconLogo className="scale-75" />
+          <IconLogo />
         </motion.div>
       ) : (
-        // Top-left corner when messages exist - better positioning
+        // Top-left corner when messages exist
         <motion.div
           key="corner"
-          initial={{ opacity: 0, x: -300, y: -300 }}
-          animate={{ opacity: 1, x: 0, y: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+          initial={{ opacity: 0, scale: 0.5, x: 200, y: 100 }}
+          animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 30 }}
           className={cn(
             'fixed top-20 left-6 z-10',
             'lg:left-[calc(var(--sidebar-width)+2rem)]'

@@ -116,7 +116,6 @@ export function ChatPanel({
 
   return (
     <>
-      <CenterLogo hasMessages={messages.length > 0} />
       <div
         className={cn(
           'w-full bg-background group/form-container shrink-0',
@@ -124,11 +123,15 @@ export function ChatPanel({
         )}
       >
         {messages.length === 0 && (
-          <div className="mb-10 flex flex-col items-center gap-6">
+          <div className="mb-10 flex flex-col items-center gap-8">
+            <CenterLogo hasMessages={false} />
             <p className="text-center text-3xl font-semibold">
               How can I help you today?
             </p>
           </div>
+        )}
+        {messages.length > 0 && (
+          <CenterLogo hasMessages={true} />
         )}
       <form
         onSubmit={handleSubmit}
