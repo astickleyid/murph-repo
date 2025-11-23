@@ -1,182 +1,68 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { X, Copy, Download } from 'lucide-react'
+import { X } from 'lucide-react'
+import { Slider } from '@/components/ui/slider'
 
-interface ThemeColors {
+interface SimpleTheme {
   name: string
-  background: string
-  foreground: string
-  card: string
-  cardForeground: string
-  popover: string
-  popoverForeground: string
-  primary: string
-  primaryForeground: string
-  secondary: string
-  secondaryForeground: string
-  muted: string
-  mutedForeground: string
-  accent: string
-  accentForeground: string
-  destructive: string
-  destructiveForeground: string
-  border: string
-  input: string
-  ring: string
+  primaryColor: string
+  backgroundColor: string
+  textColor: string
+  accentColor: string
+  borderRadius: number
+  borderWidth: number
 }
 
-const defaultLight: ThemeColors = {
-  name: 'Light',
-  background: '0 0% 100%',
-  foreground: '240 10% 3.9%',
-  card: '0 0% 100%',
-  cardForeground: '240 10% 3.9%',
-  popover: '0 0% 100%',
-  popoverForeground: '240 10% 3.9%',
-  primary: '240 5.9% 10%',
-  primaryForeground: '0 0% 98%',
-  secondary: '240 4.8% 95.9%',
-  secondaryForeground: '240 5.9% 10%',
-  muted: '240 4.8% 95.9%',
-  mutedForeground: '240 3.8% 46.1%',
-  accent: '240 4.8% 95.9%',
-  accentForeground: '240 5.9% 10%',
-  destructive: '0 84.2% 60.2%',
-  destructiveForeground: '0 0% 98%',
-  border: '240 5.9% 90%',
-  input: '240 5.9% 90%',
-  ring: '240 5.9% 10%',
-}
-
-const defaultDark: ThemeColors = {
-  name: 'Dark',
-  background: '240 10% 3.9%',
-  foreground: '0 0% 98%',
-  card: '240 10% 3.9%',
-  cardForeground: '0 0% 98%',
-  popover: '240 10% 3.9%',
-  popoverForeground: '0 0% 98%',
-  primary: '0 0% 98%',
-  primaryForeground: '240 5.9% 10%',
-  secondary: '240 3.7% 15.9%',
-  secondaryForeground: '0 0% 98%',
-  muted: '240 3.7% 15.9%',
-  mutedForeground: '240 5% 64.9%',
-  accent: '240 3.7% 15.9%',
-  accentForeground: '0 0% 98%',
-  destructive: '0 62.8% 30.6%',
-  destructiveForeground: '0 0% 98%',
-  border: '240 3.7% 15.9%',
-  input: '240 3.7% 15.9%',
-  ring: '240 4.9% 83.9%',
-}
+const presets = [
+  { name: 'Classic Dark', primaryColor: '#000000', backgroundColor: '#0a0a0a', textColor: '#ffffff', accentColor: '#3b82f6', borderRadius: 8, borderWidth: 1 },
+  { name: 'Soft Grey', primaryColor: '#2a2a2a', backgroundColor: '#18181b', textColor: '#fafafa', accentColor: '#a855f7', borderRadius: 12, borderWidth: 1 },
+  { name: 'Clean White', primaryColor: '#ffffff', backgroundColor: '#fafafa', textColor: '#0a0a0a', accentColor: '#0ea5e9', borderRadius: 8, borderWidth: 1 },
+  { name: 'Warm Cream', primaryColor: '#fef3c7', backgroundColor: '#fffbeb', textColor: '#78350f', accentColor: '#f59e0b', borderRadius: 12, borderWidth: 1 },
+  { name: 'Ocean Blue', primaryColor: '#1e40af', backgroundColor: '#dbeafe', textColor: '#1e3a8a', accentColor: '#3b82f6', borderRadius: 10, borderWidth: 2 },
+  { name: 'Forest Green', primaryColor: '#065f46', backgroundColor: '#d1fae5', textColor: '#064e3b', accentColor: '#10b981', borderRadius: 10, borderWidth: 2 },
+]
 
 export function ThemeBuilder() {
   const [isOpen, setIsOpen] = useState(false)
-  const [mode, setMode] = useState<'light' | 'dark'>('light')
-  const [lightTheme, setLightTheme] = useState<ThemeColors>(defaultLight)
-  const [darkTheme, setDarkTheme] = useState<ThemeColors>(defaultDark)
-  const [isSaved, setIsSaved] = useState(false)
+  const [theme, setTheme] = useState<SimpleTheme>({
+    name: 'Custom',
+    primaryColor: '#000000',
+    backgroundColor: '#0a0a0a',
+    textColor: '#ffffff',
+    accentColor: '#3b82f6',
+    borderRadius: 8,
+    borderWidth: 1,
+  })
 
-  const currentTheme = mode === 'light' ? lightTheme : darkTheme
-  const setCurrentTheme = mode === 'light' ? setLightTheme : setDarkTheme
+  useEffect(() => {
+    // Load saved theme
+    const saved = localStorage.getItem('simple-theme')
+    if (saved) {
+      setTheme(JSON.parse(saved))
+    }
+  }, [])
 
-  const updateColor = (key: keyof ThemeColors, value: string) => {
-    setCurrentTheme({ ...currentTheme, [key]: value })
-  }
-
-  const applyTheme = () => {
-    const root = document.documentElement
-    Object.entries(currentTheme).forEach(([key, value]) => {
-      if (key !== 'name') {
-        root.style.setProperty(`--${key}`, value)
-      }
-    })
-    setIsSaved(false)
+  const applyTheme = (t: SimpleTheme = theme) => {
+    document.documentElement.style.setProperty('--theme-primary', t.primaryColor)
+    document.documentElement.style.setProperty('--theme-bg', t.backgroundColor)
+    document.documentElement.style.setProperty('--theme-text', t.textColor)
+    document.documentElement.style.setProperty('--theme-accent', t.accentColor)
+    document.documentElement.style.setProperty('--theme-radius', `${t.borderRadius}px`)
+    document.documentElement.style.setProperty('--theme-border-width', `${t.borderWidth}px`)
   }
 
   const saveTheme = () => {
-    // Save to localStorage so it persists
-    localStorage.setItem('custom-theme-light', JSON.stringify(lightTheme))
-    localStorage.setItem('custom-theme-dark', JSON.stringify(darkTheme))
-    
-    // Apply current theme
+    localStorage.setItem('simple-theme', JSON.stringify(theme))
     applyTheme()
-    setIsSaved(true)
-    
-    setTimeout(() => setIsSaved(false), 2000)
+    alert('✅ Theme saved!')
   }
 
-  // Load saved theme on mount
-  useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedLight = localStorage.getItem('custom-theme-light')
-      const savedDark = localStorage.getItem('custom-theme-dark')
-      
-      if (savedLight) {
-        const parsed = JSON.parse(savedLight)
-        setLightTheme(parsed)
-      }
-      if (savedDark) {
-        const parsed = JSON.parse(savedDark)
-        setDarkTheme(parsed)
-      }
-      
-      // Auto-apply saved theme
-      setTimeout(() => {
-        const root = document.documentElement
-        const isDark = root.classList.contains('dark')
-        const themeToApply = isDark ? (savedDark ? JSON.parse(savedDark) : defaultDark) : (savedLight ? JSON.parse(savedLight) : defaultLight)
-        
-        Object.entries(themeToApply).forEach(([key, value]) => {
-          if (key !== 'name') {
-            root.style.setProperty(`--${key}`, value as string)
-          }
-        })
-      }, 100)
-    }
-  })
-
-  const generateCSS = () => {
-    const lightCSS = Object.entries(lightTheme)
-      .filter(([key]) => key !== 'name')
-      .map(([key, value]) => `    --${key}: ${value};`)
-      .join('\n')
-
-    const darkCSS = Object.entries(darkTheme)
-      .filter(([key]) => key !== 'name')
-      .map(([key, value]) => `    --${key}: ${value};`)
-      .join('\n')
-
-    return `@layer base {
-  :root {
-${lightCSS}
-  }
-
-  .dark {
-${darkCSS}
-  }
-}`
-  }
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(generateCSS())
-    alert('Theme CSS copied to clipboard!')
-  }
-
-  const downloadCSS = () => {
-    const css = generateCSS()
-    const blob = new Blob([css], { type: 'text/css' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'theme.css'
-    a.click()
-    URL.revokeObjectURL(url)
+  const loadPreset = (preset: SimpleTheme) => {
+    setTheme(preset)
+    applyTheme(preset)
   }
 
   if (!isOpen) {
@@ -192,128 +78,120 @@ ${darkCSS}
   }
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm">
-      <div className="fixed right-0 top-0 h-full w-[600px] bg-background border-l shadow-2xl overflow-y-auto">
-        <div className="sticky top-0 bg-background border-b p-4 flex items-center justify-between z-10">
-          <h2 className="text-xl font-bold">🎨 Theme Builder</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setIsOpen(false)}
-          >
+    <div className="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-background border rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto">
+        <div className="sticky top-0 bg-background border-b p-4 flex items-center justify-between rounded-t-2xl">
+          <h2 className="text-2xl font-bold">🎨 Theme Customizer</h2>
+          <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)}>
             <X className="size-5" />
           </Button>
         </div>
 
         <div className="p-6 space-y-6">
-          {/* Mode Toggle */}
-          <div className="flex gap-2">
-            <Button
-              variant={mode === 'light' ? 'default' : 'outline'}
-              onClick={() => setMode('light')}
-              className="flex-1"
-            >
-              ☀️ Light Mode
-            </Button>
-            <Button
-              variant={mode === 'dark' ? 'default' : 'outline'}
-              onClick={() => setMode('dark')}
-              className="flex-1"
-            >
-              🌙 Dark Mode
-            </Button>
+          {/* Presets */}
+          <div>
+            <Label className="text-lg font-semibold mb-3 block">Quick Presets</Label>
+            <div className="grid grid-cols-3 gap-3">
+              {presets.map((preset) => (
+                <button
+                  key={preset.name}
+                  onClick={() => loadPreset(preset)}
+                  className="p-4 border-2 rounded-lg hover:border-primary transition-all"
+                  style={{ 
+                    backgroundColor: preset.backgroundColor, 
+                    borderColor: preset.accentColor,
+                    color: preset.textColor 
+                  }}
+                >
+                  <div className="font-semibold text-sm">{preset.name}</div>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="text-sm text-muted-foreground">
-            Editing: <strong>{currentTheme.name}</strong>
-          </div>
-
-          {/* Color Inputs */}
+          {/* Colors */}
           <div className="space-y-4">
-            {Object.entries(currentTheme).map(([key, value]) => {
-              if (key === 'name') return null
+            <Label className="text-lg font-semibold">Colors</Label>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm mb-2 block">Primary Color</Label>
+                <input
+                  type="color"
+                  value={theme.primaryColor}
+                  onChange={(e) => setTheme({ ...theme, primaryColor: e.target.value })}
+                  className="w-full h-12 rounded-lg cursor-pointer border-2"
+                />
+              </div>
               
-              return (
-                <div key={key} className="space-y-2">
-                  <Label className="text-xs font-mono">{key}</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      value={value}
-                      onChange={(e) => updateColor(key as keyof ThemeColors, e.target.value)}
-                      className="font-mono text-xs"
-                      placeholder="e.g., 240 10% 3.9%"
-                    />
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={applyTheme}
-                    >
-                      Apply
-                    </Button>
-                  </div>
-                  <div className="text-xs text-muted-foreground">
-                    HSL format: hue saturation% lightness%
-                  </div>
-                </div>
-              )
-            })}
+              <div>
+                <Label className="text-sm mb-2 block">Background</Label>
+                <input
+                  type="color"
+                  value={theme.backgroundColor}
+                  onChange={(e) => setTheme({ ...theme, backgroundColor: e.target.value })}
+                  className="w-full h-12 rounded-lg cursor-pointer border-2"
+                />
+              </div>
+              
+              <div>
+                <Label className="text-sm mb-2 block">Text Color</Label>
+                <input
+                  type="color"
+                  value={theme.textColor}
+                  onChange={(e) => setTheme({ ...theme, textColor: e.target.value })}
+                  className="w-full h-12 rounded-lg cursor-pointer border-2"
+                />
+              </div>
+              
+              <div>
+                <Label className="text-sm mb-2 block">Accent Color</Label>
+                <input
+                  type="color"
+                  value={theme.accentColor}
+                  onChange={(e) => setTheme({ ...theme, accentColor: e.target.value })}
+                  className="w-full h-12 rounded-lg cursor-pointer border-2"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Border Settings */}
+          <div className="space-y-4">
+            <Label className="text-lg font-semibold">Border & Shape</Label>
+            
+            <div>
+              <Label className="text-sm mb-2 block">Border Radius: {theme.borderRadius}px</Label>
+              <Slider
+                value={[theme.borderRadius]}
+                onValueChange={([v]) => setTheme({ ...theme, borderRadius: v })}
+                min={0}
+                max={24}
+                step={1}
+                className="w-full"
+              />
+            </div>
+            
+            <div>
+              <Label className="text-sm mb-2 block">Border Width: {theme.borderWidth}px</Label>
+              <Slider
+                value={[theme.borderWidth]}
+                onValueChange={([v]) => setTheme({ ...theme, borderWidth: v })}
+                min={0}
+                max={4}
+                step={1}
+                className="w-full"
+              />
+            </div>
           </div>
 
           {/* Actions */}
-          <div className="sticky bottom-0 bg-background border-t pt-4 space-y-2">
-            <Button
-              onClick={saveTheme}
-              className="w-full"
-              size="lg"
-            >
-              {isSaved ? '✅ Theme Saved!' : '💾 Save & Apply Theme'}
+          <div className="flex gap-3 pt-4 border-t">
+            <Button onClick={() => applyTheme()} variant="outline" className="flex-1">
+              👁️ Preview
             </Button>
-            
-            <Button
-              onClick={applyTheme}
-              variant="outline"
-              className="w-full"
-              size="sm"
-            >
-              👁️ Preview (Don't Save)
-            </Button>
-            
-            <div className="flex gap-2">
-              <Button
-                onClick={copyToClipboard}
-                variant="outline"
-                className="flex-1"
-              >
-                <Copy className="size-4 mr-2" />
-                Copy CSS
-              </Button>
-              <Button
-                onClick={downloadCSS}
-                variant="outline"
-                className="flex-1"
-              >
-                <Download className="size-4 mr-2" />
-                Download
-              </Button>
-            </div>
-
-            <div className="text-xs text-muted-foreground text-center pt-2">
-              Your theme is saved in browser storage and persists across sessions! 🎨
-            </div>
-            
-            <Button
-              onClick={() => {
-                localStorage.removeItem('custom-theme-light')
-                localStorage.removeItem('custom-theme-dark')
-                setLightTheme(defaultLight)
-                setDarkTheme(defaultDark)
-                applyTheme()
-              }}
-              variant="ghost"
-              size="sm"
-              className="w-full text-xs"
-            >
-              🔄 Reset to Defaults
+            <Button onClick={saveTheme} className="flex-1 bg-gradient-to-r from-blue-500 to-purple-500">
+              💾 Save Theme
             </Button>
           </div>
         </div>
