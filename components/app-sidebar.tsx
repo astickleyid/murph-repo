@@ -28,15 +28,18 @@ import { IconLogo } from './ui/icons'
 export default function AppSidebar() {
   return (
     <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
-      <SidebarHeader className="flex flex-col gap-2 pb-2">
-        <div className="flex flex-row justify-between items-center px-2">
+      <SidebarHeader className="flex flex-col gap-4 pb-4">
+        <div className="flex flex-row justify-between items-center px-2 pt-2">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-4xl font-bold tracking-tight">StickGPT</span>
+              <span className="text-4xl tracking-tight">
+                <span className="font-normal">Stick</span>
+                <span className="font-bold">GPT</span>
+              </span>
             </Link>
           </motion.div>
           <SidebarTrigger />
