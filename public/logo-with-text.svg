@@ -1,0 +1,16 @@
+<svg width="1100" height="320" viewBox="0 0 1100 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(24 24) scale(0.42)">
+    <rect x="44" y="44" width="424" height="424" rx="116" stroke="#0F172A" stroke-width="28"/>
+    <path d="M256 360V252" stroke="#0F172A" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M178 256c18-52 46-92 78-92s60 40 78 92" stroke="#0F172A" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M210 288h92" stroke="#0F172A" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M232 324h48" stroke="#0F172A" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="256" cy="192" r="22" stroke="#0F172A" stroke-width="18"/>
+  </g>
+  <text x="320" y="164" fill="#0F172A" font-family="Inter, 'SF Pro Display', system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="120" font-weight="700" letter-spacing="-3">
+    StickGPT
+  </text>
+  <text x="320" y="220" fill="#334155" font-family="Inter, 'SF Pro Text', system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="38" font-weight="600" letter-spacing="-0.5">
+    Branch, explore, decide.
+  </text>
+</svg>
