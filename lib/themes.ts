@@ -44,6 +44,28 @@ export const themes: Record<string, ThemeConfig> = {
       ring: '0 0% 70%'
     }
   },
+  cream: {
+    id: 'cream',
+    name: 'Cream',
+    description: 'Soft off-white, easy on eyes',
+    colors: {
+      background: '43 13% 96%',
+      foreground: '0 0% 10%',
+      primary: '25 20% 30%',
+      primaryForeground: '43 13% 96%',
+      secondary: '40 10% 90%',
+      secondaryForeground: '0 0% 10%',
+      muted: '40 10% 92%',
+      mutedForeground: '0 0% 45%',
+      accent: '40 15% 88%',
+      accentForeground: '0 0% 10%',
+      destructive: '0 84.2% 60.2%',
+      destructiveForeground: '43 13% 96%',
+      border: '40 10% 85%',
+      input: '40 10% 85%',
+      ring: '25 20% 30%'
+    }
+  },
   dark: {
     id: 'dark',
     name: 'Dark',
@@ -64,6 +86,28 @@ export const themes: Record<string, ThemeConfig> = {
       border: '0 0% 15%',
       input: '0 0% 15%',
       ring: '0 0% 30%'
+    }
+  },
+  slate: {
+    id: 'slate',
+    name: 'Slate',
+    description: 'Soft grey, gentle on eyes',
+    colors: {
+      background: '215 16% 20%',
+      foreground: '210 20% 98%',
+      primary: '210 40% 85%',
+      primaryForeground: '215 16% 15%',
+      secondary: '215 16% 28%',
+      secondaryForeground: '210 20% 98%',
+      muted: '215 16% 28%',
+      mutedForeground: '215 20% 65%',
+      accent: '215 16% 32%',
+      accentForeground: '210 20% 98%',
+      destructive: '0 62.8% 50%',
+      destructiveForeground: '210 20% 98%',
+      border: '215 16% 30%',
+      input: '215 16% 30%',
+      ring: '210 40% 85%'
     }
   },
   ocean: {

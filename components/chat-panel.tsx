@@ -160,14 +160,21 @@ export function ChatPanel({
             recentQueries={recentQueries}
             suggestions={suggestions}
             onSelectSuggestion={(suggestion) => {
+              // Set the input value
               handleInputChange({
                 target: { value: suggestion }
               } as React.ChangeEvent<HTMLTextAreaElement>)
               addQuery(suggestion)
-              // Submit the form after setting the value
+              // Directly trigger submission
               setTimeout(() => {
-                inputRef.current?.form?.requestSubmit()
-              }, 50)
+                if (handleSubmit) {
+                  const fakeEvent = {
+                    preventDefault: () => {},
+                    currentTarget: inputRef.current?.form
+                  } as React.FormEvent<HTMLFormElement>
+                  handleSubmit(fakeEvent)
+                }
+              }, 100)
             }}
             onChange={e => {
               handleInputChange(e)
