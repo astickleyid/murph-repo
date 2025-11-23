@@ -193,50 +193,39 @@ export function ChatPanel({
           />
 
           {/* Bottom menu area */}
-          <div className="flex items-center justify-between p-3 border-t border-border/50">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between px-4 py-2.5">
+            <div className="flex items-center gap-1.5">
               <ModelSelector models={models || []} />
               <SearchModeToggle />
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5">
               {messages.length > 0 && (
-                <motion.div
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+                <button
+                  type="button"
+                  onClick={handleNewChat}
+                  disabled={isLoading || isToolInvocationInProgress()}
+                  className="size-9 rounded-full flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent/50 transition-all disabled:opacity-50"
                 >
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    onClick={handleNewChat}
-                    className="shrink-0 rounded-full group hover:bg-accent/50 transition-all"
-                    type="button"
-                    disabled={isLoading || isToolInvocationInProgress()}
-                  >
-                    <MessageCirclePlus className="size-4 group-hover:rotate-12 transition-all duration-300" />
-                  </Button>
-                </motion.div>
+                  <MessageCirclePlus className="size-4" />
+                </button>
               )}
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
+                type={isLoading ? 'button' : 'submit'}
+                disabled={
+                  (input.length === 0 && !isLoading) ||
+                  isToolInvocationInProgress()
+                }
+                onClick={isLoading ? stop : undefined}
+                className={cn(
+                  'size-9 rounded-full flex items-center justify-center',
+                  'bg-primary text-primary-foreground',
+                  'hover:bg-primary/90 transition-all',
+                  'disabled:opacity-50 disabled:cursor-not-allowed',
+                  isLoading && 'animate-pulse'
+                )}
               >
-                <Button
-                  type={isLoading ? 'button' : 'submit'}
-                  size={'icon'}
-                  className={cn(
-                    isLoading && 'animate-pulse',
-                    'rounded-full bg-primary hover:bg-primary/90 text-primary-foreground shadow-md hover:shadow-lg transition-all duration-300'
-                  )}
-                  disabled={
-                    (input.length === 0 && !isLoading) ||
-                    isToolInvocationInProgress()
-                  }
-                  onClick={isLoading ? stop : undefined}
-                >
-                  {isLoading ? <Square size={20} /> : <ArrowUp size={20} />}
-                </Button>
-              </motion.div>
+                {isLoading ? <Square className="size-4" /> : <ArrowUp className="size-4" />}
+              </button>
             </div>
           </div>
         </div>
