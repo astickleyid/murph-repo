@@ -80,6 +80,7 @@ export function ThemeBuilder() {
   const [mode, setMode] = useState<'light' | 'dark'>('light')
   const [lightTheme, setLightTheme] = useState<ThemeColors>(defaultLight)
   const [darkTheme, setDarkTheme] = useState<ThemeColors>(defaultDark)
+  const [isSaved, setIsSaved] = useState(false)
 
   const currentTheme = mode === 'light' ? lightTheme : darkTheme
   const setCurrentTheme = mode === 'light' ? setLightTheme : setDarkTheme
@@ -95,7 +96,50 @@ export function ThemeBuilder() {
         root.style.setProperty(`--${key}`, value)
       }
     })
+    setIsSaved(false)
   }
+
+  const saveTheme = () => {
+    // Save to localStorage so it persists
+    localStorage.setItem('custom-theme-light', JSON.stringify(lightTheme))
+    localStorage.setItem('custom-theme-dark', JSON.stringify(darkTheme))
+    
+    // Apply current theme
+    applyTheme()
+    setIsSaved(true)
+    
+    setTimeout(() => setIsSaved(false), 2000)
+  }
+
+  // Load saved theme on mount
+  useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedLight = localStorage.getItem('custom-theme-light')
+      const savedDark = localStorage.getItem('custom-theme-dark')
+      
+      if (savedLight) {
+        const parsed = JSON.parse(savedLight)
+        setLightTheme(parsed)
+      }
+      if (savedDark) {
+        const parsed = JSON.parse(savedDark)
+        setDarkTheme(parsed)
+      }
+      
+      // Auto-apply saved theme
+      setTimeout(() => {
+        const root = document.documentElement
+        const isDark = root.classList.contains('dark')
+        const themeToApply = isDark ? (savedDark ? JSON.parse(savedDark) : defaultDark) : (savedLight ? JSON.parse(savedLight) : defaultLight)
+        
+        Object.entries(themeToApply).forEach(([key, value]) => {
+          if (key !== 'name') {
+            root.style.setProperty(`--${key}`, value as string)
+          }
+        })
+      }, 100)
+    }
+  })
 
   const generateCSS = () => {
     const lightCSS = Object.entries(lightTheme)
@@ -218,11 +262,20 @@ ${darkCSS}
           {/* Actions */}
           <div className="sticky bottom-0 bg-background border-t pt-4 space-y-2">
             <Button
-              onClick={applyTheme}
+              onClick={saveTheme}
               className="w-full"
               size="lg"
             >
-              🎨 Apply Theme Now
+              {isSaved ? '✅ Theme Saved!' : '💾 Save & Apply Theme'}
+            </Button>
+            
+            <Button
+              onClick={applyTheme}
+              variant="outline"
+              className="w-full"
+              size="sm"
+            >
+              👁️ Preview (Don't Save)
             </Button>
             
             <div className="flex gap-2">
@@ -245,8 +298,23 @@ ${darkCSS}
             </div>
 
             <div className="text-xs text-muted-foreground text-center pt-2">
-              Paste the CSS into app/globals.css when done!
+              Your theme is saved in browser storage and persists across sessions! 🎨
             </div>
+            
+            <Button
+              onClick={() => {
+                localStorage.removeItem('custom-theme-light')
+                localStorage.removeItem('custom-theme-dark')
+                setLightTheme(defaultLight)
+                setDarkTheme(defaultDark)
+                applyTheme()
+              }}
+              variant="ghost"
+              size="sm"
+              className="w-full text-xs"
+            >
+              🔄 Reset to Defaults
+            </Button>
           </div>
         </div>
       </div>
