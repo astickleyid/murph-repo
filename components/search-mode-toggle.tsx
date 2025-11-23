@@ -32,9 +32,9 @@ export function SearchModeToggle() {
       pressed={isSearchMode}
       onPressedChange={handleSearchModeChange}
       variant="outline"
-      size="icon"
+      size="sm"
       className={cn(
-        'size-9 rounded-full border border-input text-muted-foreground bg-transparent',
+        'size-9 rounded-full border border-input text-muted-foreground bg-transparent p-0',
         'data-[state=on]:bg-primary/10',
         'data-[state=on]:text-primary',
         'data-[state=on]:border-primary/20',
