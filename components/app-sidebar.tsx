@@ -34,6 +34,7 @@ export default function AppSidebar() {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="flex-1 flex justify-center"
           >
             <Link href="/" className="flex items-center gap-2">
               <span className="text-4xl tracking-tight">
@@ -42,7 +43,7 @@ export default function AppSidebar() {
               </span>
             </Link>
           </motion.div>
-          <SidebarTrigger />
+          <SidebarTrigger className="absolute right-4" />
         </div>
         <motion.div
           initial={{ opacity: 0, y: -10 }}
