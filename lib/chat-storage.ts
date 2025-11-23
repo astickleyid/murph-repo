@@ -3,6 +3,8 @@
  * No Redis or database needed!
  */
 
+import type { Chat, ExtendedCoreMessage } from '@/lib/types'
+
 export interface ChatMessage {
   id: string
   role: 'user' | 'assistant' | 'system'
@@ -10,7 +12,7 @@ export interface ChatMessage {
   createdAt: string
 }
 
-export interface Chat {
+export interface LocalChat {
   id: string
   title: string
   messages: ChatMessage[]
@@ -22,7 +24,7 @@ const CHATS_KEY = 'stickgpt_chats'
 const CURRENT_CHAT_KEY = 'stickgpt_current_chat'
 
 // Helper to get chats from localStorage
-function getStoredChats(): Chat[] {
+function getStoredChats(): LocalChat[] {
   if (typeof window === 'undefined') return []
   
   try {
@@ -35,7 +37,7 @@ function getStoredChats(): Chat[] {
 }
 
 // Helper to save chats to localStorage
-function setStoredChats(chats: Chat[]): void {
+function setStoredChats(chats: LocalChat[]): void {
   if (typeof window === 'undefined') return
   
   try {
@@ -45,13 +47,29 @@ function setStoredChats(chats: Chat[]): void {
   }
 }
 
+// Convert LocalChat to Chat type for compatibility
+function convertToChat(localChat: LocalChat): Chat {
+  return {
+    id: localChat.id,
+    title: localChat.title,
+    createdAt: new Date(localChat.createdAt),
+    userId: 'local-user',
+    path: `/chat/${localChat.id}`,
+    messages: localChat.messages.map(msg => ({
+      role: msg.role as any,
+      content: msg.content
+    })) as ExtendedCoreMessage[]
+  }
+}
+
 /**
  * Get all chats
  */
 export function getAllChats(): Chat[] {
-  return getStoredChats().sort(
+  const localChats = getStoredChats().sort(
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   )
+  return localChats.map(convertToChat)
 }
 
 /**
@@ -69,7 +87,7 @@ export function createChat(id: string, title: string = 'New Chat'): Chat {
   const chats = getStoredChats()
   const now = new Date().toISOString()
   
-  const newChat: Chat = {
+  const newLocalChat: LocalChat = {
     id,
     title,
     messages: [],
@@ -77,16 +95,16 @@ export function createChat(id: string, title: string = 'New Chat'): Chat {
     updatedAt: now
   }
   
-  chats.push(newChat)
+  chats.push(newLocalChat)
   setStoredChats(chats)
   
-  return newChat
+  return convertToChat(newLocalChat)
 }
 
 /**
  * Update chat (messages, title, etc.)
  */
-export function updateChat(chatId: string, updates: Partial<Chat>): boolean {
+export function updateChat(chatId: string, updates: Partial<LocalChat>): boolean {
   try {
     const chats = getStoredChats()
     const index = chats.findIndex(c => c.id === chatId)
