@@ -28,8 +28,8 @@ import { IconLogo } from './ui/icons'
 export default function AppSidebar() {
   return (
     <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
-      <SidebarHeader className="flex flex-col gap-4 pb-4">
-        <div className="flex flex-row justify-between items-center px-2 pt-2">
+      <SidebarHeader className="flex flex-col gap-6 py-6">
+        <div className="flex flex-row justify-between items-center px-4">
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
@@ -48,7 +48,7 @@ export default function AppSidebar() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
-          className="px-2"
+          className="px-4"
         >
           <SidebarSearch onSearch={(query) => console.log('Search:', query)} />
         </motion.div>

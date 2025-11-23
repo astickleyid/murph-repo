@@ -22,14 +22,14 @@ export function CenterLogo({ hasMessages }: CenterLogoProps) {
   return (
     <AnimatePresence mode="wait">
       {isVisible ? (
-        // Center position when no messages
+        // Center position when no messages - back to original center
         <motion.div
           key="center"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.8, x: -300, y: -300 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="fixed top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none"
+          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none"
         >
           <IconLogo className="scale-75" />
         </motion.div>
