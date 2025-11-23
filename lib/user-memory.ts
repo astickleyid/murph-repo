@@ -1,5 +1,3 @@
-import { createClient } from '@/lib/supabase/client'
-
 export interface UserMemory {
   id: string
   user_id: string
@@ -15,14 +13,34 @@ export interface UserMemory {
 
 export type MemoryType = UserMemory['memory_type']
 
+const STORAGE_KEY = 'stickgpt_user_memory'
+
+// Helper to get all memories from localStorage
+function getStoredMemories(): UserMemory[] {
+  if (typeof window === 'undefined') return []
+  
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    return stored ? JSON.parse(stored) : []
+  } catch (error) {
+    console.error('Error reading from localStorage:', error)
+    return []
+  }
+}
+
+// Helper to save memories to localStorage
+function setStoredMemories(memories: UserMemory[]): void {
+  if (typeof window === 'undefined') return
+  
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(memories))
+  } catch (error) {
+    console.error('Error writing to localStorage:', error)
+  }
+}
+
 /**
- * Save or update user memory
- * @param userId User ID
- * @param type Type of memory (preference, interest, interaction, context)
- * @param key Unique key for this memory (e.g., 'comparison_choice', 'topic_interest')
- * @param value Data to store (flexible JSON)
- * @param context Optional context about where/when this was captured
- * @param confidence How confident we are about this (0-1, default 1.0)
+ * Save or update user memory (localStorage version - no database needed!)
  */
 export async function saveUserMemory(
   userId: string,
@@ -32,53 +50,48 @@ export async function saveUserMemory(
   context?: string,
   confidence: number = 1.0
 ): Promise<boolean> {
-  const supabase = createClient()
+  try {
+    const memories = getStoredMemories()
+    const now = new Date().toISOString()
+    
+    // Find existing memory
+    const existingIndex = memories.findIndex(
+      m => m.user_id === userId && m.key === key
+    )
 
-  // Check if memory exists
-  const { data: existing } = await supabase
-    .from('user_memory')
-    .select('id')
-    .eq('user_id', userId)
-    .eq('key', key)
-    .single()
-
-  if (existing) {
-    // Update existing memory
-    const { error } = await supabase
-      .from('user_memory')
-      .update({
+    if (existingIndex >= 0) {
+      // Update existing
+      memories[existingIndex] = {
+        ...memories[existingIndex],
         value,
         memory_type: type,
         context,
         confidence,
-        last_accessed: new Date().toISOString()
-      })
-      .eq('id', existing.id)
-
-    if (error) {
-      console.error('Error updating user memory:', error)
-      return false
-    }
-  } else {
-    // Create new memory
-    const { error } = await supabase
-      .from('user_memory')
-      .insert({
+        updated_at: now,
+        last_accessed: now
+      }
+    } else {
+      // Create new
+      memories.push({
+        id: crypto.randomUUID(),
         user_id: userId,
         memory_type: type,
         key,
         value,
         context,
-        confidence
+        confidence,
+        created_at: now,
+        updated_at: now,
+        last_accessed: now
       })
-
-    if (error) {
-      console.error('Error creating user memory:', error)
-      return false
     }
-  }
 
-  return true
+    setStoredMemories(memories)
+    return true
+  } catch (error) {
+    console.error('Error saving user memory:', error)
+    return false
+  }
 }
 
 /**
@@ -88,29 +101,23 @@ export async function getUserMemory(
   userId: string,
   key: string
 ): Promise<UserMemory | null> {
-  const supabase = createClient()
+  try {
+    const memories = getStoredMemories()
+    const memory = memories.find(
+      m => m.user_id === userId && m.key === key
+    )
 
-  const { data, error } = await supabase
-    .from('user_memory')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('key', key)
-    .single()
+    if (memory) {
+      // Update last_accessed
+      memory.last_accessed = new Date().toISOString()
+      setStoredMemories(memories)
+    }
 
-  if (error) {
-    console.error('Error fetching user memory:', error)
+    return memory || null
+  } catch (error) {
+    console.error('Error getting user memory:', error)
     return null
   }
-
-  // Update last_accessed
-  if (data) {
-    await supabase
-      .from('user_memory')
-      .update({ last_accessed: new Date().toISOString() })
-      .eq('id', data.id)
-  }
-
-  return data
 }
 
 /**
@@ -120,21 +127,15 @@ export async function getUserMemoriesByType(
   userId: string,
   type: MemoryType
 ): Promise<UserMemory[]> {
-  const supabase = createClient()
-
-  const { data, error } = await supabase
-    .from('user_memory')
-    .select('*')
-    .eq('user_id', userId)
-    .eq('memory_type', type)
-    .order('updated_at', { ascending: false })
-
-  if (error) {
-    console.error('Error fetching user memories:', error)
+  try {
+    const memories = getStoredMemories()
+    return memories
+      .filter(m => m.user_id === userId && m.memory_type === type)
+      .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+  } catch (error) {
+    console.error('Error getting user memories by type:', error)
     return []
   }
-
-  return data || []
 }
 
 /**
@@ -143,20 +144,15 @@ export async function getUserMemoriesByType(
 export async function getAllUserMemories(
   userId: string
 ): Promise<UserMemory[]> {
-  const supabase = createClient()
-
-  const { data, error } = await supabase
-    .from('user_memory')
-    .select('*')
-    .eq('user_id', userId)
-    .order('updated_at', { ascending: false })
-
-  if (error) {
-    console.error('Error fetching all user memories:', error)
+  try {
+    const memories = getStoredMemories()
+    return memories
+      .filter(m => m.user_id === userId)
+      .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+  } catch (error) {
+    console.error('Error getting all user memories:', error)
     return []
   }
-
-  return data || []
 }
 
 /**
@@ -166,20 +162,17 @@ export async function deleteUserMemory(
   userId: string,
   key: string
 ): Promise<boolean> {
-  const supabase = createClient()
-
-  const { error } = await supabase
-    .from('user_memory')
-    .delete()
-    .eq('user_id', userId)
-    .eq('key', key)
-
-  if (error) {
+  try {
+    const memories = getStoredMemories()
+    const filtered = memories.filter(
+      m => !(m.user_id === userId && m.key === key)
+    )
+    setStoredMemories(filtered)
+    return true
+  } catch (error) {
     console.error('Error deleting user memory:', error)
     return false
   }
-
-  return true
 }
 
 /**
@@ -189,21 +182,20 @@ export async function searchUserMemories(
   userId: string,
   searchTerm: string
 ): Promise<UserMemory[]> {
-  const supabase = createClient()
-
-  const { data, error } = await supabase
-    .from('user_memory')
-    .select('*')
-    .eq('user_id', userId)
-    .or(`key.ilike.%${searchTerm}%,context.ilike.%${searchTerm}%`)
-    .order('updated_at', { ascending: false })
-
-  if (error) {
+  try {
+    const memories = getStoredMemories()
+    const term = searchTerm.toLowerCase()
+    return memories
+      .filter(m => 
+        m.user_id === userId && 
+        (m.key.toLowerCase().includes(term) || 
+         m.context?.toLowerCase().includes(term))
+      )
+      .sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())
+  } catch (error) {
     console.error('Error searching user memories:', error)
     return []
   }
-
-  return data || []
 }
 
 /**
