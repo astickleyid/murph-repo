@@ -10,8 +10,9 @@ export type RedisConfig = {
 
 export const redisConfig: RedisConfig = {
   useLocalRedis: process.env.USE_LOCAL_REDIS === 'true',
-  upstashRedisRestUrl: process.env.UPSTASH_REDIS_REST_URL,
-  upstashRedisRestToken: process.env.UPSTASH_REDIS_REST_TOKEN,
+  // Check for Vercel KV env vars first, then fall back to Upstash
+  upstashRedisRestUrl: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL,
+  upstashRedisRestToken: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN,
   localRedisUrl: process.env.LOCAL_REDIS_URL || 'redis://localhost:6379'
 }
 

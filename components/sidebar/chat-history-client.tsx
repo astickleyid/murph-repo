@@ -34,18 +34,14 @@ export function ChatHistoryClient() {
   const fetchInitialChats = useCallback(async () => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/chats?offset=0&limit=20`)
-      if (!response.ok) {
-        throw new Error('Failed to fetch initial chat history')
-      }
-      const { chats: newChats, nextOffset: newNextOffset } =
-        (await response.json()) as ChatPageResponse
-
-      setChats(newChats)
-      setNextOffset(newNextOffset)
+      // Use localStorage instead of API
+      const { getAllChats } = await import('@/lib/chat-storage')
+      const localChats = getAllChats()
+      setChats(localChats.slice(0, 20))
+      setNextOffset(localChats.length > 20 ? 20 : null)
     } catch (error) {
       console.error('Failed to load initial chats:', error)
-      toast.error('Failed to load chat history.')
+      setChats([])
       setNextOffset(null)
     } finally {
       setIsLoading(false)
@@ -73,18 +69,15 @@ export function ChatHistoryClient() {
 
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/chats?offset=${nextOffset}&limit=20`)
-      if (!response.ok) {
-        throw new Error('Failed to fetch more chat history')
-      }
-      const { chats: newChats, nextOffset: newNextOffset } =
-        (await response.json()) as ChatPageResponse
-
+      // Use localStorage instead of API
+      const { getAllChats } = await import('@/lib/chat-storage')
+      const localChats = getAllChats()
+      const newChats = localChats.slice(nextOffset, nextOffset + 20)
+      
       setChats(prevChats => [...prevChats, ...newChats])
-      setNextOffset(newNextOffset)
+      setNextOffset(nextOffset + 20 < localChats.length ? nextOffset + 20 : null)
     } catch (error) {
       console.error('Failed to load more chats:', error)
-      toast.error('Failed to load more chat history.')
       setNextOffset(null)
     } finally {
       setIsLoading(false)
