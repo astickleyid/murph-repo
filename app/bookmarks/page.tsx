@@ -15,7 +15,13 @@ export default async function BookmarksPage() {
     redirect('/login')
   }
 
-  const bookmarks = await getBookmarks(user.id)
+  // Gracefully handle if table doesn't exist yet
+  let bookmarks = []
+  try {
+    bookmarks = await getBookmarks(user.id)
+  } catch (error) {
+    console.error('Error fetching bookmarks:', error)
+  }
 
   return (
     <div className="flex flex-col w-full max-w-4xl mx-auto px-4 py-8">
