@@ -163,7 +163,11 @@ export function ChatPanel({
               handleInputChange({
                 target: { value: suggestion }
               } as React.ChangeEvent<HTMLTextAreaElement>)
-              inputRef.current?.focus()
+              addQuery(suggestion)
+              // Submit the form after setting the value
+              setTimeout(() => {
+                inputRef.current?.form?.requestSubmit()
+              }, 50)
             }}
             onChange={e => {
               handleInputChange(e)
