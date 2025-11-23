@@ -77,7 +77,8 @@ export function getAllChats(): Chat[] {
  */
 export function getChat(chatId: string): Chat | null {
   const chats = getStoredChats()
-  return chats.find(c => c.id === chatId) || null
+  const localChat = chats.find(c => c.id === chatId)
+  return localChat ? convertToChat(localChat) : null
 }
 
 /**
