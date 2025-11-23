@@ -109,10 +109,14 @@ export function SmartInput({
           onFocus?.()
           setShowSuggestions(true)
         }}
-        onBlur={() => {
+        onBlur={(e) => {
           onBlur?.()
-          // Delay to allow click on suggestion
-          setTimeout(() => setShowSuggestions(false), 200)
+          // Don't hide if clicking inside suggestions
+          const relatedTarget = e.relatedTarget as HTMLElement
+          if (relatedTarget?.closest('.suggestions-dropdown')) {
+            return
+          }
+          setTimeout(() => setShowSuggestions(false), 300)
         }}
       />
 
@@ -138,8 +142,10 @@ export function SmartInput({
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    onMouseDown={(e) => {
+                    onClick={(e) => {
                       e.preventDefault()
+                      e.stopPropagation()
+                      console.log('Suggestion clicked:', suggestion)
                       onSelectSuggestion?.(suggestion)
                       setShowSuggestions(false)
                     }}
@@ -147,7 +153,7 @@ export function SmartInput({
                     className={cn(
                       "w-full flex items-center gap-2 px-3 py-2 rounded-lg",
                       "text-sm text-left transition-all duration-150",
-                      "hover:bg-accent/50",
+                      "hover:bg-accent/50 cursor-pointer",
                       selectedIndex === index && "bg-accent"
                     )}
                   >
