@@ -1,11 +1,10 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
-import { Brain } from 'lucide-react'
-
-import { defaultLogoSettings,LogoSettings } from '@/lib/themes'
 import { cn } from '@/lib/utils'
+import { LogoSettings, defaultLogoSettings } from '@/lib/themes'
 
 const LOGO_SETTINGS_KEY = 'stickgpt-logo-settings'
 
@@ -24,21 +23,24 @@ function IconLogo({ className, ...props }: React.ComponentProps<'div'>) {
   }, [])
   
   const sizeMap = {
-    small: 'h-8 w-8',
-    medium: 'h-10 w-10',
-    large: 'h-14 w-14'
+    small: 'h-12',
+    medium: 'h-16',
+    large: 'h-24'
   }
   
   return (
     <div 
-      className={cn(
-        'relative rounded-xl p-2.5 bg-gradient-to-br from-primary/10 to-primary/5',
-        'border border-primary/20 shadow-sm',
-        className
-      )} 
+      className={cn('relative flex-shrink-0', sizeMap[logoSettings.size], className)} 
+      style={{ width: 'auto', aspectRatio: '1' }}
       {...props}
     >
-      <Brain className={cn(sizeMap[logoSettings.size], 'text-primary')} strokeWidth={1.5} />
+      <Image
+        src="/logo.svg"
+        alt="StickGPT Logo"
+        fill
+        className="object-contain"
+        priority
+      />
     </div>
   )
 }
