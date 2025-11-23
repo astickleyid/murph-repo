@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import Link from 'next/link'
 
 import { motion } from 'framer-motion'
-import { Plus } from 'lucide-react'
+import { Bookmark, Plus } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -61,6 +61,14 @@ export default function AppSidebar() {
               <Link href="/" className="flex items-center gap-2">
                 <Plus className="size-4" />
                 <span>New Chat</span>
+              </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+          <SidebarMenuItem>
+            <SidebarMenuButton asChild className="mb-2">
+              <Link href="/bookmarks" className="flex items-center gap-2">
+                <Bookmark className="size-4" />
+                <span>Bookmarks</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
