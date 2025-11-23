@@ -13,6 +13,7 @@ import ArtifactRoot from '@/components/artifact/artifact-root'
 import { CommandPaletteProvider } from '@/components/command-palette-provider'
 import Header from '@/components/header'
 import { KeyboardHint } from '@/components/keyboard-hint'
+import { ThemeBuilder } from '@/components/theme-builder'
 import { ThemeProvider } from '@/components/theme-provider'
 
 import './globals.css'
@@ -83,6 +84,7 @@ export default async function RootLayout({
           </SidebarProvider>
           <CommandPaletteProvider />
           <KeyboardHint />
+          <ThemeBuilder />
           <Toaster />
           <Analytics />
         </ThemeProvider>
