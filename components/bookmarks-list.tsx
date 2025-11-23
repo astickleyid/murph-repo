@@ -14,10 +14,11 @@ import { Button } from './ui/button'
 
 interface BookmarksListProps {
   bookmarks: BookmarkType[]
+  userId: string
 }
 
-export function BookmarksList({ bookmarks }: BookmarksListProps) {
-  const handleDelete = async (userId: string, messageId: string) => {
+export function BookmarksList({ bookmarks, userId }: BookmarksListProps) {
+  const handleDelete = async (messageId: string) => {
     const success = await removeBookmark(userId, messageId)
     if (success) {
       toast.success('Bookmark removed')
@@ -74,7 +75,7 @@ export function BookmarksList({ bookmarks }: BookmarksListProps) {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => handleDelete(bookmark.user_id, bookmark.message_id)}
+              onClick={() => handleDelete(bookmark.message_id)}
               className="flex-shrink-0"
             >
               <Trash2 className="size-4" />

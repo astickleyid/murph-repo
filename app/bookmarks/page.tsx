@@ -1,27 +1,31 @@
-import { redirect } from 'next/navigation'
+'use client'
 
-import { getBookmarks } from '@/lib/bookmarks'
-import { createClient } from '@/lib/supabase/server'
+import { useEffect, useState } from 'react'
+
+import { getBookmarks, type Bookmark } from '@/lib/bookmarks'
 
 import { BookmarksList } from '@/components/bookmarks-list'
 
-export default async function BookmarksPage() {
-  const supabase = await createClient()
-  const {
-    data: { user }
-  } = await supabase.auth.getUser()
+export default function BookmarksPage() {
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
+  const [loading, setLoading] = useState(true)
 
-  if (!user) {
-    redirect('/login')
-  }
+  useEffect(() => {
+    async function loadBookmarks() {
+      try {
+        // For now, use a simple user ID (you can enhance this later with real auth)
+        const userId = 'local-user'
+        const data = await getBookmarks(userId)
+        setBookmarks(data)
+      } catch (error) {
+        console.error('Error loading bookmarks:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  // Gracefully handle if table doesn't exist yet
-  let bookmarks = []
-  try {
-    bookmarks = await getBookmarks(user.id)
-  } catch (error) {
-    console.error('Error fetching bookmarks:', error)
-  }
+    loadBookmarks()
+  }, [])
 
   return (
     <div className="flex flex-col w-full max-w-4xl mx-auto px-4 py-8">
@@ -31,7 +35,13 @@ export default async function BookmarksPage() {
           Your saved messages from conversations
         </p>
       </div>
-      <BookmarksList bookmarks={bookmarks} />
+      {loading ? (
+        <div className="text-center text-muted-foreground py-8">
+          Loading bookmarks...
+        </div>
+      ) : (
+        <BookmarksList bookmarks={bookmarks} userId="local-user" />
+      )}
     </div>
   )
 }
