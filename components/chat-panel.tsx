@@ -14,7 +14,7 @@ import { useSmartInput } from '@/hooks/use-smart-input'
 
 import { useArtifact } from './artifact/artifact-context'
 import { Button } from './ui/button'
-import { IconLogo } from './ui/icons'
+import { CenterLogo } from './center-logo'
 import { EmptyScreen } from './empty-screen'
 import { ModelSelector } from './model-selector'
 import { SearchModeToggle } from './search-mode-toggle'
@@ -115,20 +115,21 @@ export function ChatPanel({
   }
 
   return (
-    <div
-      className={cn(
-        'w-full bg-background group/form-container shrink-0',
-        messages.length > 0 ? 'sticky bottom-0 px-2 pb-4' : 'px-6'
-      )}
-    >
-      {messages.length === 0 && (
-        <div className="mb-10 flex flex-col items-center gap-6">
-          <IconLogo />
-          <p className="text-center text-3xl font-semibold">
-            How can I help you today?
-          </p>
-        </div>
-      )}
+    <>
+      <CenterLogo hasMessages={messages.length > 0} />
+      <div
+        className={cn(
+          'w-full bg-background group/form-container shrink-0',
+          messages.length > 0 ? 'sticky bottom-0 px-2 pb-4' : 'px-6'
+        )}
+      >
+        {messages.length === 0 && (
+          <div className="mb-10 flex flex-col items-center gap-6">
+            <p className="text-center text-3xl font-semibold">
+              How can I help you today?
+            </p>
+          </div>
+        )}
       <form
         onSubmit={handleSubmit}
         className={cn('max-w-3xl w-full mx-auto relative')}
@@ -248,6 +249,7 @@ export function ChatPanel({
           />
         )}
       </form>
-    </div>
+      </div>
+    </>
   )
 }

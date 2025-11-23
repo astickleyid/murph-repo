@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
+import { defaultLogoSettings,LogoSettings } from '@/lib/themes'
 import { cn } from '@/lib/utils'
-import { LogoSettings, defaultLogoSettings } from '@/lib/themes'
 
 const LOGO_SETTINGS_KEY = 'stickgpt-logo-settings'
 
@@ -23,9 +23,9 @@ function IconLogo({ className, ...props }: React.ComponentProps<'div'>) {
   }, [])
   
   const sizeMap = {
-    small: 'h-12',
-    medium: 'h-16',
-    large: 'h-24'
+    small: 'h-20',
+    medium: 'h-32',
+    large: 'h-48'
   }
   
   return (

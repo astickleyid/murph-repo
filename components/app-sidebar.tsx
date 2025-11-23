@@ -36,7 +36,7 @@ export default function AppSidebar() {
             transition={{ duration: 0.3, ease: 'easeOut' }}
           >
             <Link href="/" className="flex items-center gap-2">
-              <span className="text-xl font-bold tracking-tight">StickGPT</span>
+              <span className="text-4xl font-bold tracking-tight">StickGPT</span>
             </Link>
           </motion.div>
           <SidebarTrigger />
