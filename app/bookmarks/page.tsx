@@ -30,7 +30,7 @@ export default function BookmarksPage() {
   return (
     <div className="flex flex-col w-full max-w-4xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Bookmarked Messages</h1>
+        <h1 className="text-3xl font-bold mb-2 bg-gradient-to-r from-foreground to-[hsl(210,100%,50%)] bg-clip-text text-transparent">Bookmarked Messages</h1>
         <p className="text-muted-foreground">
           Your saved messages from conversations
         </p>

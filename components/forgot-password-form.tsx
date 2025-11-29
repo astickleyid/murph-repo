@@ -49,7 +49,7 @@ export function ForgotPasswordForm({
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       {success ? (
-        <Card>
+        <Card className="border-border/50 shadow-lg backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-2xl">Check Your Email</CardTitle>
             <CardDescription>Password reset instructions sent</CardDescription>
@@ -62,7 +62,7 @@ export function ForgotPasswordForm({
           </CardContent>
         </Card>
       ) : (
-        <Card>
+        <Card className="border-border/50 shadow-lg backdrop-blur-sm">
           <CardHeader>
             <CardTitle className="text-2xl">Reset Your Password</CardTitle>
             <CardDescription>
@@ -82,10 +82,11 @@ export function ForgotPasswordForm({
                     required
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    className="border-border/50 focus:border-[hsl(210,100%,50%)]/50 focus:ring-[hsl(210,100%,50%)]/20"
                   />
                 </div>
                 {error && <p className="text-sm text-red-500">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" variant="blue" className="w-full" disabled={isLoading}>
                   {isLoading ? 'Sending...' : 'Send reset email'}
                 </Button>
               </div>
@@ -93,7 +94,7 @@ export function ForgotPasswordForm({
                 Already have an account?{' '}
                 <Link
                   href="/auth/login"
-                  className="underline underline-offset-4"
+                  className="text-[hsl(210,100%,50%)] underline underline-offset-4 hover:text-[hsl(210,100%,55%)]"
                 >
                   Login
                 </Link>

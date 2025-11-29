@@ -54,13 +54,13 @@ export function EmptyScreen({
             >
               <Button
                 variant="link"
-                className="h-auto p-0 text-base"
+                className="h-auto p-0 text-base text-foreground hover:text-[hsl(210,100%,50%)] transition-colors"
                 name={message.message}
                 onClick={async () => {
                   submitMessage(message.message)
                 }}
               >
-                <ArrowRight size={16} className="mr-2 text-muted-foreground" />
+                <ArrowRight size={16} className="mr-2 text-[hsl(210,100%,50%)]" />
                 {message.heading}
               </Button>
             </motion.div>

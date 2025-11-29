@@ -29,7 +29,7 @@ export function SearchArtifactContent({ tool }: { tool: ToolInvocation }) {
       )}
 
       <Section title="Sources">
-        <SearchResults results={searchResults.results} displayMode="list" />
+        <SearchResults results={searchResults.results} displayMode="list" query={query || ''} />
       </Section>
     </div>
   )

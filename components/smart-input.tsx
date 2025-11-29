@@ -120,15 +120,15 @@ export function SmartInput({
         }}
       />
 
-      {/* Suggestions dropdown */}
+      {/* Suggestions dropdown - appears below input */}
       <AnimatePresence>
         {showSuggestions && allSuggestions.length > 0 && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            exit={{ opacity: 0, y: 10 }}
             transition={{ duration: 0.15 }}
-            className="absolute bottom-full left-0 right-0 mb-2 glass-strong rounded-xl p-2 shadow-xl z-50"
+            className="absolute top-full left-0 right-0 mt-2 glass-strong rounded-xl p-2 shadow-xl z-50 suggestions-dropdown"
           >
             <div className="space-y-1">
               {allSuggestions.map((suggestion, index) => {
