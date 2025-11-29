@@ -78,7 +78,7 @@ export function SearchSection({
         <SearchSkeleton />
       ) : searchResults?.results ? (
         <Section title="Sources">
-          <SearchResults results={searchResults.results} />
+          <SearchResults results={searchResults.results} query={query || ''} />
         </Section>
       ) : null}
     </CollapsibleMessage>

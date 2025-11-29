@@ -11,14 +11,18 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 
+import { detectContentType, RichContentCard } from './rich-content-card'
+
 export interface SearchResultsProps {
   results: SearchResultItem[]
   displayMode?: 'grid' | 'list'
+  query?: string
 }
 
 export function SearchResults({
   results,
-  displayMode = 'grid'
+  displayMode = 'grid',
+  query = ''
 }: SearchResultsProps) {
   // State to manage whether to display the results
   const [showAllResults, setShowAllResults] = useState(false)
@@ -88,47 +92,65 @@ export function SearchResults({
     )
   }
 
-  // --- Grid Mode Rendering (Enhanced with better responsive layout) ---
+  // --- Grid Mode Rendering (Enhanced with rich content cards) ---
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-      {displayedGridResults.map((result, index) => (
-        <motion.div
-          key={result.url}
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            duration: 0.3,
-            delay: index * 0.05,
-            ease: [0.25, 0.1, 0.25, 1]
-          }}
-        >
-          <Link href={result.url} passHref target="_blank">
-            <Card className="h-full hover:bg-muted/50 transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98]">
-              <CardContent className="p-3 flex flex-col justify-between h-full min-h-[100px]">
-                <p className="text-xs line-clamp-2 min-h-[2rem] font-medium">
-                  {result.title || result.content}
-                </p>
-                <div className="mt-2 flex items-center space-x-1">
-                  <Avatar className="h-4 w-4 flex-shrink-0">
-                    <AvatarImage
-                      src={`https://www.google.com/s2/favicons?domain=${
-                        new URL(result.url).hostname
-                      }`}
-                      alt={new URL(result.url).hostname}
-                    />
-                    <AvatarFallback className="text-[8px]">
-                      {new URL(result.url).hostname[0]}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="text-xs text-muted-foreground truncate">
-                    {`${displayUrlName(result.url)} - ${index + 1}`}
+      {displayedGridResults.map((result, index) => {
+        // Check if this result should use a rich content card
+        const contentType = detectContentType(result, query)
+        const useRichCard = contentType !== 'general'
+
+        if (useRichCard) {
+          return (
+            <RichContentCard
+              key={result.url}
+              result={result}
+              query={query}
+              index={index}
+            />
+          )
+        }
+
+        // Default card rendering
+        return (
+          <motion.div
+            key={result.url}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{
+              duration: 0.3,
+              delay: index * 0.05,
+              ease: [0.25, 0.1, 0.25, 1]
+            }}
+          >
+            <Link href={result.url} passHref target="_blank">
+              <Card className="h-full hover:bg-muted/50 transition-all duration-200 hover:shadow-md hover:scale-[1.02] active:scale-[0.98]">
+                <CardContent className="p-3 flex flex-col justify-between h-full min-h-[100px]">
+                  <p className="text-xs line-clamp-2 min-h-[2rem] font-medium">
+                    {result.title || result.content}
+                  </p>
+                  <div className="mt-2 flex items-center space-x-1">
+                    <Avatar className="h-4 w-4 flex-shrink-0">
+                      <AvatarImage
+                        src={`https://www.google.com/s2/favicons?domain=${
+                          new URL(result.url).hostname
+                        }`}
+                        alt={new URL(result.url).hostname}
+                      />
+                      <AvatarFallback className="text-[8px]">
+                        {new URL(result.url).hostname[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="text-xs text-muted-foreground truncate">
+                      {`${displayUrlName(result.url)} - ${index + 1}`}
+                    </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-        </motion.div>
-      ))}
+                </CardContent>
+              </Card>
+            </Link>
+          </motion.div>
+        )
+      })}
       {!showAllResults && additionalResultsCount > 0 && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
