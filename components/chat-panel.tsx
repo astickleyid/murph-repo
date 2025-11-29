@@ -151,7 +151,7 @@ export function ChatPanel({
           </Button>
         )}
 
-        <div className="relative flex flex-col w-full gap-2 glass-strong rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300">
+        <div className="relative flex flex-col w-full gap-2 glass-strong rounded-3xl shadow-lg hover:shadow-xl hover:shadow-[hsl(210,100%,50%)]/5 focus-within:shadow-[hsl(210,100%,50%)]/10 focus-within:border-[hsl(210,100%,50%)]/20 transition-all duration-300">
           <SmartInput
             inputRef={inputRef}
             value={input}
@@ -229,8 +229,8 @@ export function ChatPanel({
                 onClick={isLoading ? stop : undefined}
                 className={cn(
                   'size-9 rounded-full flex items-center justify-center',
-                  'bg-primary text-primary-foreground',
-                  'hover:bg-primary/90 transition-all',
+                  'bg-[hsl(210,100%,50%)] text-white',
+                  'hover:bg-[hsl(210,100%,45%)] hover:shadow-md hover:shadow-[hsl(210,100%,50%)]/25 transition-all',
                   'disabled:opacity-50 disabled:cursor-not-allowed',
                   isLoading && 'animate-pulse'
                 )}

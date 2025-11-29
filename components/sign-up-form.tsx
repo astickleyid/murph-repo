@@ -64,7 +64,7 @@ export function SignUpForm({
       className={cn('flex flex-col items-center gap-6', className)}
       {...props}
     >
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm border-border/50 shadow-lg backdrop-blur-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl flex flex-col items-center justify-center gap-4">
             <IconLogo className="size-12" />
@@ -86,6 +86,7 @@ export function SignUpForm({
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
+                  className="border-border/50 focus:border-[hsl(210,100%,50%)]/50 focus:ring-[hsl(210,100%,50%)]/20"
                 />
               </div>
               <div className="grid gap-2">
@@ -99,6 +100,7 @@ export function SignUpForm({
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  className="border-border/50 focus:border-[hsl(210,100%,50%)]/50 focus:ring-[hsl(210,100%,50%)]/20"
                 />
               </div>
               <div className="grid gap-2">
@@ -112,16 +114,17 @@ export function SignUpForm({
                   required
                   value={repeatPassword}
                   onChange={e => setRepeatPassword(e.target.value)}
+                  className="border-border/50 focus:border-[hsl(210,100%,50%)]/50 focus:ring-[hsl(210,100%,50%)]/20"
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" variant="blue" className="w-full" disabled={isLoading}>
                 {isLoading ? 'Creating account...' : 'Sign Up'}
               </Button>
             </div>
             <div className="mt-6 text-center text-sm">
               Already have an account?{' '}
-              <Link href="/auth/login" className="underline underline-offset-4">
+              <Link href="/auth/login" className="text-[hsl(210,100%,50%)] underline underline-offset-4 hover:text-[hsl(210,100%,55%)]">
                 Sign In
               </Link>
             </div>
@@ -129,7 +132,7 @@ export function SignUpForm({
         </CardContent>
       </Card>
       <div className="text-center text-xs text-muted-foreground">
-        <Link href="/" className="hover:underline">
+        <Link href="/" className="hover:text-[hsl(210,100%,50%)] hover:underline transition-colors">
           &larr; Back to Home
         </Link>
       </div>

@@ -80,7 +80,7 @@ export function LoginForm({
       className={cn('flex flex-col items-center gap-6', className)}
       {...props}
     >
-      <Card className="w-full max-w-sm">
+      <Card className="w-full max-w-sm border-border/50 shadow-lg backdrop-blur-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl flex flex-col items-center justify-center gap-4">
             <IconLogo className="size-12" />
@@ -93,7 +93,7 @@ export function LoginForm({
             <Button
               variant="outline"
               type="button"
-              className="w-full"
+              className="w-full border-[hsl(210,100%,50%)]/30 hover:border-[hsl(210,100%,50%)]/50 hover:bg-[hsl(210,100%,50%)]/5"
               onClick={handleSocialLogin}
               disabled={isLoading}
             >
@@ -102,10 +102,10 @@ export function LoginForm({
 
             <div className="relative my-2">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
+                <span className="w-full border-t border-border/50" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-muted px-2 text-muted-foreground">Or</span>
+                <span className="bg-card px-2 text-muted-foreground">Or</span>
               </div>
             </div>
 
@@ -119,6 +119,7 @@ export function LoginForm({
                   required
                   value={email}
                   onChange={e => setEmail(e.target.value)}
+                  className="border-border/50 focus:border-[hsl(210,100%,50%)]/50 focus:ring-[hsl(210,100%,50%)]/20"
                 />
               </div>
               <div className="grid gap-2">
@@ -126,7 +127,7 @@ export function LoginForm({
                   <Label htmlFor="password">Password</Label>
                   <Link
                     href="/auth/forgot-password"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                    className="ml-auto inline-block text-sm text-[hsl(210,100%,50%)] underline-offset-4 hover:underline"
                   >
                     Forgot password?
                   </Link>
@@ -138,24 +139,25 @@ export function LoginForm({
                   required
                   value={password}
                   onChange={e => setPassword(e.target.value)}
+                  className="border-border/50 focus:border-[hsl(210,100%,50%)]/50 focus:ring-[hsl(210,100%,50%)]/20"
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" disabled={isLoading}>
+              <Button type="submit" variant="blue" className="w-full" disabled={isLoading}>
                 {isLoading ? 'Logging in...' : 'Sign In'}
               </Button>
             </form>
           </div>
           <div className="mt-6 text-center text-sm">
             Don&apos;t have an account?{' '}
-            <Link href="/auth/sign-up" className="underline underline-offset-4">
+            <Link href="/auth/sign-up" className="text-[hsl(210,100%,50%)] underline underline-offset-4 hover:text-[hsl(210,100%,55%)]">
               Sign Up
             </Link>
           </div>
         </CardContent>
       </Card>
       <div className="text-center text-xs text-muted-foreground">
-        <Link href="/" className="hover:underline">
+        <Link href="/" className="hover:text-[hsl(210,100%,50%)] hover:underline transition-colors">
           &larr; Back to Home
         </Link>
       </div>
