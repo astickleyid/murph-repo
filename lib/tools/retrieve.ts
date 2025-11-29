@@ -17,7 +17,8 @@ async function fetchJinaReaderData(
       }
     })
     const json = await response.json()
-    if (!json.data || json.data.length === 0) {
+    // Check for successful API response: code 200 and data object with content
+    if (json.code !== 200 || !json.data || !json.data.content) {
       return null
     }
 
